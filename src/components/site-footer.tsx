@@ -1,17 +1,13 @@
 import { Link } from "@tanstack/react-router";
-import { GraduationCap, Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin } from "lucide-react";
+import logo from "@/assets/logo.png";
 
 export function SiteFooter() {
   return (
     <footer className="bg-primary text-primary-foreground">
       <div className="mx-auto grid max-w-7xl gap-12 px-6 py-16 lg:grid-cols-4 lg:px-10">
         <div className="space-y-4">
-          <div className="flex items-center gap-2.5">
-            <span className="flex h-9 w-9 items-center justify-center rounded-md bg-[var(--gold)] text-[var(--gold-foreground)]">
-              <GraduationCap className="h-5 w-5" />
-            </span>
-            <span className="font-serif text-xl font-bold">4Schoolers</span>
-          </div>
+          <img src={logo} alt="4Schoolers logo" className="h-12 w-auto bg-white/95 rounded-md p-1.5" />
           <p className="max-w-xs text-sm text-primary-foreground/70 leading-relaxed">
             Elite college admissions consulting with 150+ years of combined Ivy League expertise.
           </p>
