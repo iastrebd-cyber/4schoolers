@@ -35,12 +35,7 @@ export function SiteHeader() {
     >
       <div className="mx-auto flex h-18 max-w-7xl items-center justify-between gap-6 px-6 py-4 lg:px-10">
         <Link to="/" className="flex items-center gap-2.5 group">
-          <span className="flex h-9 w-9 items-center justify-center rounded-md bg-primary text-primary-foreground">
-            <GraduationCap className="h-5 w-5" />
-          </span>
-          <span className="font-serif text-xl font-bold tracking-tight text-primary">
-            4Schoolers
-          </span>
+          <img src={logo} alt="4Schoolers logo" className="h-10 w-auto" />
         </Link>
 
         <nav className="hidden items-center gap-8 lg:flex" aria-label="Primary">
