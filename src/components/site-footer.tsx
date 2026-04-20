@@ -7,7 +7,7 @@ export function SiteFooter() {
     <footer className="bg-primary text-primary-foreground">
       <div className="mx-auto grid max-w-7xl gap-12 px-6 py-16 lg:grid-cols-4 lg:px-10">
         <div className="space-y-4">
-          <img src={logo} alt="4Schoolers logo" className="h-12 w-auto bg-white/95 rounded-md p-1.5" />
+          <img src={logo} alt="4Schoolers logo" className="h-12 w-auto" />
           <p className="max-w-xs text-sm text-primary-foreground/70 leading-relaxed">
             Elite college admissions consulting with 150+ years of combined Ivy League expertise.
           </p>
