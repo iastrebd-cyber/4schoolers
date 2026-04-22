@@ -2,6 +2,21 @@ import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import harvardIcon from "@/assets/universities/harvard.png";
+import yaleIcon from "@/assets/universities/yale.png";
+import princetonIcon from "@/assets/universities/princeton.png";
+import columbiaIcon from "@/assets/universities/columbia.png";
+import stanfordIcon from "@/assets/universities/stanford.png";
+import mitIcon from "@/assets/universities/mit.png";
+
+const universities = [
+  { name: "Harvard", icon: harvardIcon },
+  { name: "Yale", icon: yaleIcon },
+  { name: "Princeton", icon: princetonIcon },
+  { name: "Columbia", icon: columbiaIcon },
+  { name: "Stanford", icon: stanfordIcon },
+  { name: "MIT", icon: mitIcon },
+];
 
 export function Hero() {
   return (
@@ -93,9 +108,17 @@ export function Hero() {
           <span className="font-semibold uppercase tracking-wider text-foreground/60 text-xs">
             Placements:
           </span>
-          {["Harvard", "Yale", "Princeton", "Columbia", "Stanford", "MIT"].map((u) => (
-            <span key={u} className="font-serif text-base text-primary/80">
-              {u}
+          {universities.map((u) => (
+            <span key={u.name} className="inline-flex items-center gap-2">
+              <img
+                src={u.icon}
+                alt={`${u.name} emblem`}
+                width={28}
+                height={28}
+                loading="lazy"
+                className="h-7 w-7 object-contain"
+              />
+              <span className="font-serif text-base text-primary/80">{u.name}</span>
             </span>
           ))}
         </motion.div>
