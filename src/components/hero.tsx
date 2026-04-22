@@ -55,7 +55,7 @@ export function Hero() {
           transition={{ duration: 0.7, delay: 0.05 }}
           className="mt-6 max-w-4xl font-serif text-5xl font-bold uppercase leading-[1.05] tracking-tight text-primary text-balance sm:text-6xl lg:text-7xl"
         >
-          97% SUCCESS RATE IN{" "}
+          <span className="text-[hsl(0_75%_45%)] align-baseline">97%</span> SUCCESS RATE IN{" "}
           <span className="relative inline-block">
             <span className="relative z-10">ELITE COLLEGE ADMISSIONS</span>
             <span className="absolute inset-x-0 bottom-1 h-3 bg-[var(--gold)]/35 -z-0" />
