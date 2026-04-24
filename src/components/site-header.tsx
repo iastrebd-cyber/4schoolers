@@ -1,8 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LogOut, LayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/hooks/use-auth";
 import logo from "@/assets/logo.png";
 
 const navLinks = [
@@ -16,6 +17,7 @@ const navLinks = [
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const auth = useAuth();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -51,10 +53,28 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <div className="hidden lg:block">
-          <Button asChild className="bg-[var(--gold)] text-[var(--gold-foreground)] hover:bg-[var(--gold)]/90 shadow-sm">
-            <Link to="/contact">Book a Strategy Session</Link>
-          </Button>
+        <div className="hidden lg:flex lg:items-center lg:gap-3">
+          {auth.isAuthenticated ? (
+            <>
+              <Button asChild variant="outline" size="sm">
+                <Link to="/dashboard">
+                  <LayoutDashboard className="h-4 w-4" /> Кабинет
+                </Link>
+              </Button>
+              <Button variant="ghost" size="sm" onClick={() => auth.signOut()}>
+                <LogOut className="h-4 w-4" /> Выйти
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button asChild variant="ghost" size="sm">
+                <Link to="/login">Войти</Link>
+              </Button>
+              <Button asChild className="bg-[var(--gold)] text-[var(--gold-foreground)] hover:bg-[var(--gold)]/90 shadow-sm">
+                <Link to="/signup">Регистрация</Link>
+              </Button>
+            </>
+          )}
         </div>
 
         <button
@@ -82,14 +102,46 @@ export function SiteHeader() {
                 {l.label}
               </Link>
             ))}
-            <Button
-              asChild
-              className="mt-2 bg-[var(--gold)] text-[var(--gold-foreground)] hover:bg-[var(--gold)]/90"
-            >
-              <Link to="/contact" onClick={() => setOpen(false)}>
-                Book a Strategy Session
-              </Link>
-            </Button>
+
+            {auth.isAuthenticated ? (
+              <>
+                <Link
+                  to="/dashboard"
+                  onClick={() => setOpen(false)}
+                  className="mt-2 rounded-md px-3 py-3 text-base font-medium text-foreground/80 hover:bg-secondary hover:text-primary"
+                >
+                  Кабинет
+                </Link>
+                <Button
+                  variant="outline"
+                  className="mt-2"
+                  onClick={() => {
+                    auth.signOut();
+                    setOpen(false);
+                  }}
+                >
+                  <LogOut className="h-4 w-4" /> Выйти
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  onClick={() => setOpen(false)}
+                  className="mt-2 rounded-md px-3 py-3 text-base font-medium text-foreground/80 hover:bg-secondary hover:text-primary"
+                >
+                  Войти
+                </Link>
+                <Button
+                  asChild
+                  className="mt-2 bg-[var(--gold)] text-[var(--gold-foreground)] hover:bg-[var(--gold)]/90"
+                >
+                  <Link to="/signup" onClick={() => setOpen(false)}>
+                    Регистрация
+                  </Link>
+                </Button>
+              </>
+            )}
           </nav>
         </div>
       )}
