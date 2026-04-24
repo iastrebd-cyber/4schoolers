@@ -12,14 +12,14 @@ import { useAuth } from "@/hooks/use-auth";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
-const items = [
+const items: ReadonlyArray<{ to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean }> = [
   { to: "/dashboard", label: "Главная", icon: LayoutDashboard, exact: true },
   { to: "/dashboard/profile", label: "Профиль", icon: User },
   { to: "/dashboard/universities", label: "Университеты", icon: GraduationCap },
   { to: "/dashboard/quizzes", label: "Квизы", icon: ListChecks },
   { to: "/dashboard/sessions", label: "Сессии", icon: CalendarCheck },
   { to: "/dashboard/progress", label: "Прогресс", icon: Map },
-] as const;
+];
 
 export function DashboardSidebar() {
   const auth = useAuth();
