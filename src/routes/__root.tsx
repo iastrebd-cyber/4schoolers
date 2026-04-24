@@ -1,7 +1,10 @@
-import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
+import { Outlet, Link, createRootRouteWithContext, HeadContent, Scripts, useRouter } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { MobileStickyCTA } from "@/components/mobile-sticky-cta";
+import { AuthProvider, useAuth } from "@/hooks/use-auth";
+import type { RouterContext } from "@/router";
 
 import appCss from "../styles.css?url";
 
@@ -27,7 +30,7 @@ function NotFoundComponent() {
   );
 }
 
-export const Route = createRootRoute({
+export const Route = createRootRouteWithContext<RouterContext>()({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
@@ -78,15 +81,28 @@ function RootShell({ children }: { children: React.ReactNode }) {
   );
 }
 
+function AuthBridge() {
+  const auth = useAuth();
+  const router = useRouter();
+  useEffect(() => {
+    router.update({ context: { auth } });
+    router.invalidate();
+  }, [auth, router]);
+  return null;
+}
+
 function RootComponent() {
   return (
-    <div className="flex min-h-screen flex-col bg-background text-foreground">
-      <SiteHeader />
-      <main className="flex-1">
-        <Outlet />
-      </main>
-      <SiteFooter />
-      <MobileStickyCTA />
-    </div>
+    <AuthProvider>
+      <AuthBridge />
+      <div className="flex min-h-screen flex-col bg-background text-foreground">
+        <SiteHeader />
+        <main className="flex-1">
+          <Outlet />
+        </main>
+        <SiteFooter />
+        <MobileStickyCTA />
+      </div>
+    </AuthProvider>
   );
 }
