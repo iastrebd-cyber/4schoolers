@@ -33,9 +33,9 @@ export function SiteHeader() {
           : "bg-background/0",
       )}
     >
-      <div className="mx-auto flex h-18 max-w-7xl items-center justify-between gap-6 px-6 py-4 lg:px-10">
+      <div className="mx-auto flex h-24 lg:h-28 max-w-7xl items-center justify-between gap-6 px-6 py-3 lg:px-10">
         <Link to="/" className="flex items-center gap-2.5 group">
-          <img src={logo} alt="4Schoolers logo" className="h-10 w-auto" />
+          <img src={logo} alt="4Schoolers logo" className="h-16 lg:h-20 w-auto" />
         </Link>
 
         <nav className="hidden items-center gap-8 lg:flex" aria-label="Primary">
