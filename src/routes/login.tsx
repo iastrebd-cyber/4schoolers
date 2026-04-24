@@ -30,7 +30,7 @@ function LoginPage() {
   const search = Route.useSearch();
   const [loading, setLoading] = useState(false);
   const form = useForm<FormValues>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(schema as never),
     defaultValues: { email: "", password: "" },
   });
 
