@@ -16,9 +16,11 @@ const schema = z.object({
 });
 type FormValues = z.infer<typeof schema>;
 
+type LoginSearch = { redirect?: string };
+
 export const Route = createFileRoute("/login")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    redirect: typeof search.redirect === "string" ? search.redirect : "/dashboard",
+  validateSearch: (search: Record<string, unknown>): LoginSearch => ({
+    redirect: typeof search.redirect === "string" ? search.redirect : undefined,
   }),
   component: LoginPage,
 });
@@ -41,7 +43,7 @@ function LoginPage() {
       return;
     }
     toast.success("Вход выполнен");
-    navigate({ to: search.redirect });
+    window.location.href = search.redirect || "/dashboard";
   };
 
   return (
