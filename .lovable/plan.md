@@ -1,28 +1,91 @@
 
 
-# Увеличение иконки бургер-меню на 40%
+# Личный кабинет студента (Вариант B) — Email + Password
 
-## Что меняем
-В правом верхнем углу мобильного хедера находится кнопка-бургер с тремя горизонтальными полосками (иконка `Menu` из lucide-react). Увеличить её визуальный размер на 40%.
+## Что получит пользователь
 
-## Изменения
+**Авторизация (email + пароль):**
+- Регистрация с подтверждением email
+- Вход по email/паролю
+- Восстановление пароля ("Забыли пароль?")
+- Выход из аккаунта
+- Кнопка "Войти / Кабинет" в шапке (десктоп + мобильное меню)
 
-**Файл:** `src/components/site-header.tsx` (строки 60–68)
+**Кабинет студента (`/dashboard`):**
+- Главная панель с приветствием и сводкой прогресса
+- Профиль: имя, email, телефон, текущий класс, год выпуска, средний балл
+- Целевые университеты: добавить/удалить из списка мечты
+- История квизов: результаты пройденных тестов на лендинге
+- Заявки на стратегические сессии: список со статусами (новая / запланирована / завершена)
+- Прогресс подготовки: timeline по этапам (тесты, эссе, рекомендации, подача)
 
-1. У иконок `Menu` и `X`: размер `h-5 w-5` (20px) → `h-7 w-7` (28px) — это +40%.
-2. У контейнера-кнопки увеличить тач-зону: `h-10 w-10` → `h-12 w-12`, чтобы иконка не упиралась в края.
+## Структура страниц
 
-Итог:
-```tsx
-<button
-  ...
-  className="inline-flex h-12 w-12 items-center justify-center rounded-md text-primary lg:hidden"
->
-  {open ? <X className="h-7 w-7" /> : <Menu className="h-7 w-7" />}
-</button>
+```text
+/login                    — вход
+/signup                   — регистрация
+/forgot-password          — запрос ссылки на сброс
+/reset-password           — установка нового пароля (по ссылке из письма)
+
+/dashboard                — главная кабинета (сводка)
+/dashboard/profile        — профиль студента
+/dashboard/universities   — целевые университеты
+/dashboard/quizzes        — история квизов
+/dashboard/sessions       — заявки на стратегические сессии
+/dashboard/progress       — прогресс подготовки
 ```
 
+Все маршруты `/dashboard/*` защищены layout-роутом `_authenticated.tsx` через `beforeLoad` + `redirect` на `/login` (с возвратом на исходный URL после входа).
+
+## Backend (Lovable Cloud)
+
+**Включить Lovable Cloud** (Supabase Auth + Postgres).
+
+**Auth настройки:**
+- Email + Password провайдер
+- Email confirmations включены
+- Auto-redirect URLs: `/dashboard`, `/reset-password`
+- Password HIBP check включён (защита от утёкших паролей)
+
+**Таблицы (все с RLS — пользователь видит только свои строки):**
+
+1. `profiles` — id (FK auth.users), full_name, phone, current_grade, graduation_year, gpa, avatar_url, created_at, updated_at. Триггер автосоздания при регистрации.
+2. `target_universities` — id, user_id, university_name, priority (reach/target/safety), notes, created_at.
+3. `quiz_results` — id, user_id, quiz_type, score, answers (jsonb), recommended_track, created_at.
+4. `consultation_requests` — id, user_id, requested_at, scheduled_at, status (new/scheduled/completed/cancelled), notes.
+5. `progress_steps` — id, user_id, step_key (testing/essays/recommendations/applications/...), status (not_started/in_progress/completed), completed_at, notes.
+
+Роли — отдельная таблица `user_roles` + enum `app_role` + security-definer функция `has_role()` (на будущее, для админ-панели; в этой итерации не используется в UI).
+
+## Frontend изменения
+
+**Новые файлы:**
+- `src/integrations/supabase/client.ts` — авто-генерируется при включении Cloud
+- `src/hooks/use-auth.tsx` — хук + AuthProvider с `onAuthStateChange`
+- `src/routes/login.tsx`, `signup.tsx`, `forgot-password.tsx`, `reset-password.tsx`
+- `src/routes/_authenticated.tsx` — layout-guard
+- `src/routes/_authenticated/dashboard.tsx` — layout кабинета (сайдбар + Outlet)
+- `src/routes/_authenticated/dashboard.index.tsx` — сводка
+- `src/routes/_authenticated/dashboard.profile.tsx`
+- `src/routes/_authenticated/dashboard.universities.tsx`
+- `src/routes/_authenticated/dashboard.quizzes.tsx`
+- `src/routes/_authenticated/dashboard.sessions.tsx`
+- `src/routes/_authenticated/dashboard.progress.tsx`
+- `src/components/dashboard-sidebar.tsx`
+
+**Изменяемые файлы:**
+- `src/router.tsx` — добавить `context: { auth: undefined! }` через `createRootRouteWithContext`
+- `src/routes/__root.tsx` — обернуть в `AuthProvider`, прокинуть auth в контекст роутера
+- `src/components/site-header.tsx` — для гостей "Войти" + "Регистрация", для авторизованных "Кабинет" + "Выйти"
+- `src/components/mobile-sticky-cta.tsx` — скрывать на `/dashboard/*` маршрутах
+
 ## Технические детали
-- Меняются только Tailwind-классы размеров на двух элементах.
-- Поведение open/close, aria-атрибуты и десктопная навигация не затрагиваются.
+
+- Все формы валидируются через `zod` + `react-hook-form` (длины, email-формат, минимум 8 символов на пароль).
+- `signUp({ options: { emailRedirectTo: window.location.origin + '/dashboard' } })` — после клика на письмо пользователь попадает в кабинет.
+- `resetPasswordForEmail(email, { redirectTo: window.location.origin + '/reset-password' })` — `/reset-password` публичный, читает `type=recovery` из hash и вызывает `updateUser({ password })`.
+- `onAuthStateChange` подписка ставится ДО `getSession()` — иначе теряются события.
+- Все запросы к таблицам идут через клиентский Supabase — RLS гарантирует изоляцию по `user_id = auth.uid()`.
+- Стилистика — те же shadcn/ui компоненты (Card, Button, Input, Tabs, Badge), та же цветовая схема (gold accent, primary).
+- Сайдбар кабинета — компонент `Sidebar` из shadcn, с навигацией по разделам.
 
