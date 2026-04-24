@@ -49,7 +49,7 @@ function ProfilePage() {
     e.preventDefault();
     if (!auth.user) return;
     if (data.full_name.trim().length < 2) {
-      toast.error("Введите имя");
+      toast.error("Enter your name");
       return;
     }
     setSaving(true);
@@ -65,17 +65,17 @@ function ProfilePage() {
       toast.error(error.message);
       return;
     }
-    toast.success("Профиль обновлён");
+    toast.success("Profile updated");
   };
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="font-serif text-2xl">Профиль</CardTitle>
+        <CardTitle className="font-serif text-2xl">Profile</CardTitle>
       </CardHeader>
       <CardContent>
         {loading ? (
-          <p className="text-muted-foreground">Загрузка...</p>
+          <p className="text-muted-foreground">Loading...</p>
         ) : (
           <form onSubmit={onSave} className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div className="space-y-2 sm:col-span-2">
@@ -83,7 +83,7 @@ function ProfilePage() {
               <Input id="email" value={auth.user?.email ?? ""} disabled />
             </div>
             <div className="space-y-2 sm:col-span-2">
-              <Label htmlFor="full_name">Имя и фамилия</Label>
+              <Label htmlFor="full_name">Full name</Label>
               <Input
                 id="full_name"
                 value={data.full_name}
@@ -91,7 +91,7 @@ function ProfilePage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="phone">Телефон</Label>
+              <Label htmlFor="phone">Phone</Label>
               <Input
                 id="phone"
                 value={data.phone}
@@ -99,16 +99,16 @@ function ProfilePage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="current_grade">Текущий класс</Label>
+              <Label htmlFor="current_grade">Current grade</Label>
               <Input
                 id="current_grade"
-                placeholder="например, 11"
+                placeholder="e.g., 11"
                 value={data.current_grade}
                 onChange={(e) => setData({ ...data, current_grade: e.target.value })}
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="graduation_year">Год выпуска</Label>
+              <Label htmlFor="graduation_year">Graduation year</Label>
               <Input
                 id="graduation_year"
                 type="number"
@@ -119,7 +119,7 @@ function ProfilePage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="gpa">Средний балл (GPA)</Label>
+              <Label htmlFor="gpa">GPA</Label>
               <Input
                 id="gpa"
                 type="number"
@@ -132,7 +132,7 @@ function ProfilePage() {
             </div>
             <div className="sm:col-span-2">
               <Button type="submit" disabled={saving}>
-                {saving ? "Сохранение..." : "Сохранить"}
+                {saving ? "Saving..." : "Save"}
               </Button>
             </div>
           </form>

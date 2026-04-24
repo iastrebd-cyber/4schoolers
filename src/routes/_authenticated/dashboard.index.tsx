@@ -38,19 +38,19 @@ function DashboardHome() {
   }, [auth.user]);
 
   const stats = [
-    { label: "Университеты", value: counts.universities, to: "/dashboard/universities" },
-    { label: "Квизы", value: counts.quizzes, to: "/dashboard/quizzes" },
-    { label: "Сессии", value: counts.sessions, to: "/dashboard/sessions" },
-    { label: "Этапы выполнены", value: counts.progress, to: "/dashboard/progress" },
+    { label: "Universities", value: counts.universities, to: "/dashboard/universities" },
+    { label: "Quizzes", value: counts.quizzes, to: "/dashboard/quizzes" },
+    { label: "Sessions", value: counts.sessions, to: "/dashboard/sessions" },
+    { label: "Steps completed", value: counts.progress, to: "/dashboard/progress" },
   ] as const;
 
   return (
     <div className="space-y-6">
       <div>
         <h1 className="font-serif text-3xl font-semibold">
-          Привет{name ? `, ${name.split(" ")[0]}` : ""}!
+          Hi{name ? `, ${name.split(" ")[0]}` : ""}!
         </h1>
-        <p className="mt-1 text-muted-foreground">Сводка вашей подготовки к поступлению</p>
+        <p className="mt-1 text-muted-foreground">Your admissions prep at a glance</p>
       </div>
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
@@ -62,7 +62,7 @@ function DashboardHome() {
             <CardContent>
               <p className="font-serif text-3xl font-semibold">{s.value}</p>
               <Link to={s.to} className="mt-2 inline-block text-xs text-primary hover:underline">
-                Открыть →
+                Open →
               </Link>
             </CardContent>
           </Card>
@@ -71,14 +71,14 @@ function DashboardHome() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Что дальше?</CardTitle>
+          <CardTitle>What's next?</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3 text-sm">
-          <p>1. Заполните <Link to="/dashboard/profile" className="text-primary hover:underline">профиль</Link> — это поможет нам подобрать стратегию.</p>
-          <p>2. Добавьте <Link to="/dashboard/universities" className="text-primary hover:underline">целевые университеты</Link>.</p>
-          <p>3. Запишитесь на <Link to="/dashboard/sessions" className="text-primary hover:underline">стратегическую сессию</Link>.</p>
+          <p>1. Complete your <Link to="/dashboard/profile" className="text-primary hover:underline">profile</Link> — it helps us tailor your strategy.</p>
+          <p>2. Add your <Link to="/dashboard/universities" className="text-primary hover:underline">target universities</Link>.</p>
+          <p>3. Book a <Link to="/dashboard/sessions" className="text-primary hover:underline">strategy session</Link>.</p>
           <Button asChild className="mt-2">
-            <Link to="/dashboard/profile">Заполнить профиль</Link>
+            <Link to="/dashboard/profile">Complete profile</Link>
           </Button>
         </CardContent>
       </Card>

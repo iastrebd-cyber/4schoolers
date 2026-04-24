@@ -12,11 +12,11 @@ import { toast } from "sonner";
 
 const schema = z
   .object({
-    password: z.string().min(8, "Минимум 8 символов").max(128),
+    password: z.string().min(8, "At least 8 characters").max(128),
     confirm: z.string(),
   })
   .refine((d) => d.password === d.confirm, {
-    message: "Пароли не совпадают",
+    message: "Passwords do not match",
     path: ["confirm"],
   });
 type FormValues = z.infer<typeof schema>;
@@ -36,7 +36,7 @@ function ResetPasswordPage() {
   });
 
   useEffect(() => {
-    // Supabase автоматически парсит recovery hash и создаёт сессию
+    // Supabase automatically parses the recovery hash and creates a session
     const { data: sub } = supabase.auth.onAuthStateChange((event) => {
       if (event === "PASSWORD_RECOVERY" || event === "SIGNED_IN") {
         setReady(true);
@@ -56,7 +56,7 @@ function ResetPasswordPage() {
       toast.error(error.message);
       return;
     }
-    toast.success("Пароль обновлён");
+    toast.success("Password updated");
     navigate({ to: "/dashboard" });
   };
 
@@ -64,29 +64,29 @@ function ResetPasswordPage() {
     <div className="mx-auto flex min-h-[calc(100vh-12rem)] max-w-md items-center px-4 py-12">
       <Card className="w-full">
         <CardHeader>
-          <CardTitle className="font-serif text-2xl">Новый пароль</CardTitle>
+          <CardTitle className="font-serif text-2xl">New password</CardTitle>
           <CardDescription>
-            {ready ? "Установите новый пароль для своего аккаунта" : "Проверка ссылки восстановления..."}
+            {ready ? "Set a new password for your account" : "Verifying recovery link..."}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="password">Новый пароль</Label>
+              <Label htmlFor="password">New password</Label>
               <Input id="password" type="password" autoComplete="new-password" {...form.register("password")} />
               {form.formState.errors.password && (
                 <p className="text-sm text-destructive">{form.formState.errors.password.message}</p>
               )}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="confirm">Повторите пароль</Label>
+              <Label htmlFor="confirm">Confirm password</Label>
               <Input id="confirm" type="password" autoComplete="new-password" {...form.register("confirm")} />
               {form.formState.errors.confirm && (
                 <p className="text-sm text-destructive">{form.formState.errors.confirm.message}</p>
               )}
             </div>
             <Button type="submit" className="w-full" disabled={loading || !ready}>
-              {loading ? "Обновление..." : "Сохранить пароль"}
+              {loading ? "Updating..." : "Save password"}
             </Button>
           </form>
         </CardContent>

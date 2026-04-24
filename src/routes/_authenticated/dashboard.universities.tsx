@@ -57,7 +57,7 @@ function UniversitiesPage() {
     e.preventDefault();
     if (!auth.user) return;
     if (name.trim().length < 2) {
-      toast.error("Введите название университета");
+      toast.error("Enter the university name");
       return;
     }
     const { error } = await supabase.from("target_universities").insert({
@@ -70,7 +70,7 @@ function UniversitiesPage() {
     setName("");
     setNotes("");
     setPriority("target");
-    toast.success("Университет добавлен");
+    toast.success("University added");
     load();
   };
 
@@ -84,16 +84,16 @@ function UniversitiesPage() {
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>Добавить университет</CardTitle>
+          <CardTitle>Add university</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={onAdd} className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <div className="space-y-2 sm:col-span-2">
-              <Label htmlFor="uni">Название</Label>
+              <Label htmlFor="uni">Name</Label>
               <Input id="uni" value={name} onChange={(e) => setName(e.target.value)} placeholder="Harvard University" />
             </div>
             <div className="space-y-2">
-              <Label>Приоритет</Label>
+              <Label>Priority</Label>
               <Select value={priority} onValueChange={(v) => setPriority(v as Priority)}>
                 <SelectTrigger>
                   <SelectValue />
@@ -106,11 +106,11 @@ function UniversitiesPage() {
               </Select>
             </div>
             <div className="space-y-2 sm:col-span-3">
-              <Label htmlFor="notes">Заметки</Label>
+              <Label htmlFor="notes">Notes</Label>
               <Input id="notes" value={notes} onChange={(e) => setNotes(e.target.value)} />
             </div>
             <div className="sm:col-span-3">
-              <Button type="submit">Добавить</Button>
+              <Button type="submit">Add</Button>
             </div>
           </form>
         </CardContent>
@@ -118,13 +118,13 @@ function UniversitiesPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Мой список ({rows.length})</CardTitle>
+          <CardTitle>My list ({rows.length})</CardTitle>
         </CardHeader>
         <CardContent>
           {loading ? (
-            <p className="text-muted-foreground">Загрузка...</p>
+            <p className="text-muted-foreground">Loading...</p>
           ) : rows.length === 0 ? (
-            <p className="text-muted-foreground">Список пуст. Добавьте первый университет.</p>
+            <p className="text-muted-foreground">Your list is empty. Add your first university.</p>
           ) : (
             <ul className="divide-y divide-border">
               {rows.map((r) => (

@@ -19,10 +19,10 @@ type Row = {
 };
 
 const statusLabel: Record<Status, { label: string; variant: "default" | "secondary" | "outline" | "destructive" }> = {
-  new: { label: "Новая", variant: "default" },
-  scheduled: { label: "Запланирована", variant: "secondary" },
-  completed: { label: "Завершена", variant: "outline" },
-  cancelled: { label: "Отменена", variant: "destructive" },
+  new: { label: "New", variant: "default" },
+  scheduled: { label: "Scheduled", variant: "secondary" },
+  completed: { label: "Completed", variant: "outline" },
+  cancelled: { label: "Cancelled", variant: "destructive" },
 };
 
 export const Route = createFileRoute("/_authenticated/dashboard/sessions")({
@@ -60,7 +60,7 @@ function SessionsPage() {
     });
     if (error) return toast.error(error.message);
     setNotes("");
-    toast.success("Заявка отправлена");
+    toast.success("Request submitted");
     load();
   };
 
@@ -68,34 +68,34 @@ function SessionsPage() {
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>Запросить стратегическую сессию</CardTitle>
+          <CardTitle>Request a strategy session</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={onRequest} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="notes">Что хотите обсудить?</Label>
+              <Label htmlFor="notes">What would you like to discuss?</Label>
               <Textarea
                 id="notes"
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                placeholder="Например: подбор университетов, стратегия эссе..."
+                placeholder="e.g., university shortlist, essay strategy..."
                 rows={4}
               />
             </div>
-            <Button type="submit">Отправить заявку</Button>
+            <Button type="submit">Submit request</Button>
           </form>
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader>
-          <CardTitle>Мои заявки ({rows.length})</CardTitle>
+          <CardTitle>My requests ({rows.length})</CardTitle>
         </CardHeader>
         <CardContent>
           {loading ? (
-            <p className="text-muted-foreground">Загрузка...</p>
+            <p className="text-muted-foreground">Loading...</p>
           ) : rows.length === 0 ? (
-            <p className="text-muted-foreground">Заявок пока нет.</p>
+            <p className="text-muted-foreground">No requests yet.</p>
           ) : (
             <ul className="divide-y divide-border">
               {rows.map((r) => (
@@ -103,12 +103,12 @@ function SessionsPage() {
                   <div className="flex items-start justify-between">
                     <div>
                       <p className="text-sm text-muted-foreground">
-                        Создана: {new Date(r.requested_at).toLocaleDateString("ru-RU")}
+                        Created: {new Date(r.requested_at).toLocaleDateString("en-US")}
                       </p>
                       {r.scheduled_at && (
                         <p className="text-sm">
-                          Запланирована на:{" "}
-                          {new Date(r.scheduled_at).toLocaleString("ru-RU")}
+                          Scheduled for:{" "}
+                          {new Date(r.scheduled_at).toLocaleString("en-US")}
                         </p>
                       )}
                       {r.notes && <p className="mt-1 text-sm">{r.notes}</p>}

@@ -13,12 +13,12 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
 const items: ReadonlyArray<{ to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean }> = [
-  { to: "/dashboard", label: "Главная", icon: LayoutDashboard, exact: true },
-  { to: "/dashboard/profile", label: "Профиль", icon: User },
-  { to: "/dashboard/universities", label: "Университеты", icon: GraduationCap },
-  { to: "/dashboard/quizzes", label: "Квизы", icon: ListChecks },
-  { to: "/dashboard/sessions", label: "Сессии", icon: CalendarCheck },
-  { to: "/dashboard/progress", label: "Прогресс", icon: Map },
+  { to: "/dashboard", label: "Overview", icon: LayoutDashboard, exact: true },
+  { to: "/dashboard/profile", label: "Profile", icon: User },
+  { to: "/dashboard/universities", label: "Universities", icon: GraduationCap },
+  { to: "/dashboard/quizzes", label: "Quizzes", icon: ListChecks },
+  { to: "/dashboard/sessions", label: "Sessions", icon: CalendarCheck },
+  { to: "/dashboard/progress", label: "Progress", icon: Map },
 ];
 
 export function DashboardSidebar() {
@@ -29,7 +29,7 @@ export function DashboardSidebar() {
     <aside className="w-full border-b border-border bg-card lg:w-64 lg:border-b-0 lg:border-r lg:min-h-[calc(100vh-6rem)]">
       <div className="p-4 lg:p-6">
         <div className="mb-4 lg:mb-6">
-          <p className="font-serif text-xl font-semibold">Кабинет</p>
+          <p className="font-serif text-xl font-semibold">Dashboard</p>
           <p className="truncate text-xs text-muted-foreground">{auth.user?.email}</p>
         </div>
         <nav className="grid grid-cols-2 gap-1 sm:grid-cols-3 lg:grid-cols-1">
@@ -60,7 +60,7 @@ export function DashboardSidebar() {
           className="mt-4 w-full"
           onClick={() => auth.signOut()}
         >
-          <LogOut className="mr-2 h-4 w-4" /> Выйти
+          <LogOut className="mr-2 h-4 w-4" /> Sign out
         </Button>
       </div>
     </aside>

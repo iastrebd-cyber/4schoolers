@@ -32,16 +32,16 @@ function QuizzesPage() {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle>История квизов</CardTitle>
+        <CardTitle>Quiz history</CardTitle>
         <Button asChild variant="outline" size="sm">
-          <Link to="/quiz">Пройти квиз</Link>
+          <Link to="/quiz">Take a quiz</Link>
         </Button>
       </CardHeader>
       <CardContent>
         {loading ? (
-          <p className="text-muted-foreground">Загрузка...</p>
+          <p className="text-muted-foreground">Loading...</p>
         ) : rows.length === 0 ? (
-          <p className="text-muted-foreground">Вы ещё не проходили квизы. Начните с диагностического теста.</p>
+          <p className="text-muted-foreground">You haven't taken any quizzes yet. Start with the diagnostic test.</p>
         ) : (
           <ul className="divide-y divide-border">
             {rows.map((r) => (
@@ -49,7 +49,7 @@ function QuizzesPage() {
                 <div>
                   <p className="font-medium">{r.quiz_type}</p>
                   <p className="text-xs text-muted-foreground">
-                    {new Date(r.created_at).toLocaleDateString("ru-RU")}
+                    {new Date(r.created_at).toLocaleDateString("en-US")}
                   </p>
                   {r.recommended_track && (
                     <Badge variant="secondary" className="mt-1">
