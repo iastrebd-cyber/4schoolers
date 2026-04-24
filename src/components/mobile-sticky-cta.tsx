@@ -19,6 +19,8 @@ export function MobileStickyCTA() {
   }, [lastY]);
 
   if (location.pathname === "/quiz") return null;
+  if (location.pathname.startsWith("/dashboard")) return null;
+  if (["/login", "/signup", "/forgot-password", "/reset-password"].includes(location.pathname)) return null;
 
   return (
     <div
