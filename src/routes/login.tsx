@@ -30,6 +30,7 @@ function LoginPage() {
   const search = Route.useSearch();
   const [loading, setLoading] = useState(false);
   const form = useForm<FormValues>({
+    // @ts-expect-error - zod version mismatch between project and @hookform/resolvers peer
     resolver: zodResolver(schema),
     defaultValues: { email: "", password: "" },
   });
