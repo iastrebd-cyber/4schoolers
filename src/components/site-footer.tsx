@@ -42,15 +42,15 @@ export function SiteFooter() {
             Contact
           </h3>
           <ul className="mt-4 space-y-3 text-sm text-primary-foreground/75">
-            <li className="flex items-start gap-2.5"><Phone className="mt-0.5 h-4 w-4 text-[var(--gold)]" /> (617) 555-0142</li>
-            <li className="flex items-start gap-2.5"><Mail className="mt-0.5 h-4 w-4 text-[var(--gold)]" /> hello@4schoolers.com</li>
-            <li className="flex items-start gap-2.5"><MapPin className="mt-0.5 h-4 w-4 text-[var(--gold)]" /> Boston, MA</li>
+            <li className="flex items-start gap-2.5"><Phone className="mt-0.5 h-4 w-4 text-[var(--gold)]" /><span>(617) 555-0142</span></li>
+            <li className="flex items-start gap-2.5"><Mail className="mt-0.5 h-4 w-4 text-[var(--gold)]" /><span>hello@4schoolers.com</span></li>
+            <li className="flex items-start gap-2.5"><MapPin className="mt-0.5 h-4 w-4 text-[var(--gold)]" /><span>Boston, MA</span></li>
           </ul>
         </div>
       </div>
       <div className="border-t border-primary-foreground/10">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-6 py-6 text-xs text-primary-foreground/55 lg:flex-row lg:px-10">
-          <p>© {new Date().getFullYear()} 4Schoolers. All rights reserved.</p>
+          <p>© 2026 4Schoolers. All rights reserved.</p>
           <p>Boston · New York · Online</p>
         </div>
       </div>
