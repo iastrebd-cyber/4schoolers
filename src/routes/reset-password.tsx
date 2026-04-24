@@ -30,7 +30,7 @@ function ResetPasswordPage() {
   const [loading, setLoading] = useState(false);
   const [ready, setReady] = useState(false);
   const form = useForm<FormValues>({
-    resolver: zodResolver(schema as never),
+    resolver: zodResolver(schema) as never,
     defaultValues: { password: "", confirm: "" },
   });
 
