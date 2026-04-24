@@ -11,7 +11,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { toast } from "sonner";
 
 const schema = z.object({
-  email: z.string().trim().email("Введите корректный email").max(255),
+  email: z.string().trim().email("Enter a valid email").max(255),
 });
 type FormValues = z.infer<typeof schema>;
 
@@ -39,24 +39,24 @@ function ForgotPasswordPage() {
       return;
     }
     setSent(true);
-    toast.success("Письмо отправлено");
+    toast.success("Email sent");
   };
 
   return (
     <div className="mx-auto flex min-h-[calc(100vh-12rem)] max-w-md items-center px-4 py-12">
       <Card className="w-full">
         <CardHeader>
-          <CardTitle className="font-serif text-2xl">Восстановление пароля</CardTitle>
-          <CardDescription>Введите email — мы вышлем ссылку для сброса пароля</CardDescription>
+          <CardTitle className="font-serif text-2xl">Reset password</CardTitle>
+          <CardDescription>Enter your email — we'll send you a reset link</CardDescription>
         </CardHeader>
         <CardContent>
           {sent ? (
             <div className="space-y-4">
               <p className="text-sm text-muted-foreground">
-                Если такой email зарегистрирован, мы отправили на него ссылку для сброса пароля. Проверьте входящие.
+                If this email is registered, we've sent a password reset link. Check your inbox.
               </p>
               <Button asChild className="w-full" variant="outline">
-                <Link to="/login">Вернуться ко входу</Link>
+                <Link to="/login">Back to sign in</Link>
               </Button>
             </div>
           ) : (
@@ -69,11 +69,11 @@ function ForgotPasswordPage() {
                 )}
               </div>
               <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? "Отправка..." : "Отправить ссылку"}
+                {loading ? "Sending..." : "Send reset link"}
               </Button>
               <p className="text-center text-sm">
                 <Link to="/login" className="text-primary hover:underline">
-                  Назад ко входу
+                  Back to sign in
                 </Link>
               </p>
             </form>

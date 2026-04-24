@@ -58,20 +58,20 @@ export function SiteHeader() {
             <>
               <Button asChild variant="outline" size="sm">
                 <Link to="/dashboard">
-                  <LayoutDashboard className="h-4 w-4" /> Кабинет
+                  <LayoutDashboard className="h-4 w-4" /> Dashboard
                 </Link>
               </Button>
               <Button variant="ghost" size="sm" onClick={() => auth.signOut()}>
-                <LogOut className="h-4 w-4" /> Выйти
+                <LogOut className="h-4 w-4" /> Sign out
               </Button>
             </>
           ) : (
             <>
               <Button asChild variant="ghost" size="sm">
-                <Link to="/login">Войти</Link>
+                <Link to="/login">Sign in</Link>
               </Button>
               <Button asChild className="bg-[var(--gold)] text-[var(--gold-foreground)] hover:bg-[var(--gold)]/90 shadow-sm">
-                <Link to="/signup">Регистрация</Link>
+                <Link to="/signup">Sign up</Link>
               </Button>
             </>
           )}
@@ -110,7 +110,7 @@ export function SiteHeader() {
                   onClick={() => setOpen(false)}
                   className="mt-2 rounded-md px-3 py-3 text-base font-medium text-foreground/80 hover:bg-secondary hover:text-primary"
                 >
-                  Кабинет
+                  Dashboard
                 </Link>
                 <Button
                   variant="outline"
@@ -120,7 +120,7 @@ export function SiteHeader() {
                     setOpen(false);
                   }}
                 >
-                  <LogOut className="h-4 w-4" /> Выйти
+                  <LogOut className="h-4 w-4" /> Sign out
                 </Button>
               </>
             ) : (
@@ -130,14 +130,14 @@ export function SiteHeader() {
                   onClick={() => setOpen(false)}
                   className="mt-2 rounded-md px-3 py-3 text-base font-medium text-foreground/80 hover:bg-secondary hover:text-primary"
                 >
-                  Войти
+                  Sign in
                 </Link>
                 <Button
                   asChild
                   className="mt-2 bg-[var(--gold)] text-[var(--gold-foreground)] hover:bg-[var(--gold)]/90"
                 >
                   <Link to="/signup" onClick={() => setOpen(false)}>
-                    Регистрация
+                    Sign up
                   </Link>
                 </Button>
               </>

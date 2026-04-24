@@ -11,12 +11,12 @@ import { toast } from "sonner";
 type Status = "not_started" | "in_progress" | "completed";
 
 const STEPS = [
-  { key: "testing", label: "Стандартизированные тесты (SAT/ACT)" },
-  { key: "essays", label: "Личные эссе" },
-  { key: "recommendations", label: "Рекомендательные письма" },
-  { key: "applications", label: "Подача документов" },
-  { key: "interviews", label: "Интервью" },
-  { key: "decisions", label: "Решения и финал" },
+  { key: "testing", label: "Standardized tests (SAT/ACT)" },
+  { key: "essays", label: "Personal essays" },
+  { key: "recommendations", label: "Recommendation letters" },
+  { key: "applications", label: "Application submission" },
+  { key: "interviews", label: "Interviews" },
+  { key: "decisions", label: "Decisions & final steps" },
 ] as const;
 
 const NEXT: Record<Status, Status> = {
@@ -75,15 +75,15 @@ function ProgressPage() {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
-          <span>Прогресс подготовки</span>
+          <span>Preparation progress</span>
           <span className="text-sm font-normal text-muted-foreground">
-            {completed} из {STEPS.length}
+            {completed} of {STEPS.length}
           </span>
         </CardTitle>
       </CardHeader>
       <CardContent>
         {loading ? (
-          <p className="text-muted-foreground">Загрузка...</p>
+          <p className="text-muted-foreground">Loading...</p>
         ) : (
           <ol className="space-y-3">
             {STEPS.map((step, i) => {
@@ -103,14 +103,14 @@ function ProgressPage() {
                       <Icon className="h-4 w-4" />
                     </div>
                     <div>
-                      <p className="text-xs text-muted-foreground">Этап {i + 1}</p>
+                      <p className="text-xs text-muted-foreground">Step {i + 1}</p>
                       <p className="font-medium">{step.label}</p>
                     </div>
                   </div>
                   <Button variant="outline" size="sm" onClick={() => cycle(step.key)}>
-                    {status === "not_started" && "Начать"}
-                    {status === "in_progress" && "Завершить"}
-                    {status === "completed" && "Сбросить"}
+                    {status === "not_started" && "Start"}
+                    {status === "in_progress" && "Complete"}
+                    {status === "completed" && "Reset"}
                   </Button>
                 </li>
               );

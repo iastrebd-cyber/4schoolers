@@ -11,8 +11,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { toast } from "sonner";
 
 const schema = z.object({
-  email: z.string().trim().email("Введите корректный email").max(255),
-  password: z.string().min(8, "Минимум 8 символов").max(128),
+  email: z.string().trim().email("Enter a valid email").max(255),
+  password: z.string().min(8, "At least 8 characters").max(128),
 });
 type FormValues = z.infer<typeof schema>;
 
@@ -40,10 +40,10 @@ function LoginPage() {
     const { error } = await supabase.auth.signInWithPassword(values);
     setLoading(false);
     if (error) {
-      toast.error(error.message === "Invalid login credentials" ? "Неверный email или пароль" : error.message);
+      toast.error(error.message === "Invalid login credentials" ? "Invalid email or password" : error.message);
       return;
     }
-    toast.success("Вход выполнен");
+    toast.success("Signed in");
     window.location.href = search.redirect || "/dashboard";
   };
 
@@ -51,8 +51,8 @@ function LoginPage() {
     <div className="mx-auto flex min-h-[calc(100vh-12rem)] max-w-md items-center px-4 py-12">
       <Card className="w-full">
         <CardHeader>
-          <CardTitle className="font-serif text-2xl">Вход в кабинет</CardTitle>
-          <CardDescription>Войдите, чтобы продолжить подготовку</CardDescription>
+          <CardTitle className="font-serif text-2xl">Sign in</CardTitle>
+          <CardDescription>Sign in to continue your admissions journey</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -64,21 +64,21 @@ function LoginPage() {
               )}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Пароль</Label>
+              <Label htmlFor="password">Password</Label>
               <Input id="password" type="password" autoComplete="current-password" {...form.register("password")} />
               {form.formState.errors.password && (
                 <p className="text-sm text-destructive">{form.formState.errors.password.message}</p>
               )}
             </div>
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Вход..." : "Войти"}
+              {loading ? "Signing in..." : "Sign in"}
             </Button>
             <div className="flex items-center justify-between text-sm">
               <Link to="/forgot-password" className="text-primary hover:underline">
-                Забыли пароль?
+                Forgot password?
               </Link>
               <Link to="/signup" className="text-primary hover:underline">
-                Регистрация
+                Sign up
               </Link>
             </div>
           </form>
