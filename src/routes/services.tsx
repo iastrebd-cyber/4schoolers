@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Section, FadeIn, Eyebrow } from "@/components/section";
 import { Button } from "@/components/ui/button";
-import { Compass, MessageSquare, Briefcase, BookOpen, Check } from "lucide-react";
+import { Compass, MessageSquare, Briefcase, BookOpen, Check, Trophy, Stethoscope, GraduationCap, ArrowRightLeft, ArrowUpRight } from "lucide-react";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
