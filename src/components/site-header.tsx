@@ -1,14 +1,29 @@
 import { Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { Menu, X, LogOut, LayoutDashboard } from "lucide-react";
+import { Menu, X, LogOut, LayoutDashboard, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/use-auth";
 import logo from "@/assets/logo.png";
 
+const servicesLinks = [
+  { to: "/services", label: "All Services", desc: "Overview of every program we offer" },
+  { to: "/services/athletic-recruitment", label: "Athletic Recruitment", desc: "D1, D2, D3 placement for student-athletes" },
+  { to: "/services/bs-md-programs", label: "BS/MD Programs", desc: "Direct medical school admissions" },
+  { to: "/services/graduate-admissions", label: "Graduate Admissions", desc: "MBA, law, PhD applications" },
+  { to: "/services/transfer-admissions", label: "Transfer Admissions", desc: "University transfer support" },
+] as const;
+
 const navLinks = [
-  { to: "/services", label: "Services" },
   { to: "/about", label: "About" },
+  { to: "/team", label: "Team" },
   { to: "/success-stories", label: "Success Stories" },
   { to: "/resources", label: "Resources" },
   { to: "/contact", label: "Contact" },
@@ -16,6 +31,7 @@ const navLinks = [
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const auth = useAuth();
 
@@ -41,6 +57,31 @@ export function SiteHeader() {
         </Link>
 
         <nav className="hidden items-center gap-8 lg:flex" aria-label="Primary">
+          <NavigationMenu>
+            <NavigationMenuList>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className="bg-transparent text-sm font-medium text-foreground/75 hover:text-primary data-[state=open]:text-primary px-0 h-auto">
+                  Services
+                </NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid w-[420px] gap-1 p-3">
+                    {servicesLinks.map((s) => (
+                      <li key={s.to}>
+                        <Link
+                          to={s.to}
+                          className="block rounded-md px-3 py-2.5 transition-colors hover:bg-secondary"
+                        >
+                          <div className="text-sm font-semibold text-primary">{s.label}</div>
+                          <p className="mt-0.5 text-xs text-muted-foreground">{s.desc}</p>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
+
           {navLinks.map((l) => (
             <Link
               key={l.to}
@@ -91,6 +132,30 @@ export function SiteHeader() {
       {open && (
         <div className="border-t border-border bg-background lg:hidden">
           <nav className="mx-auto flex max-w-7xl flex-col gap-1 px-6 py-4" aria-label="Mobile">
+            <button
+              type="button"
+              onClick={() => setServicesOpen((v) => !v)}
+              className="flex items-center justify-between rounded-md px-3 py-3 text-base font-medium text-foreground/80 hover:bg-secondary hover:text-primary"
+              aria-expanded={servicesOpen}
+            >
+              <span>Services</span>
+              <ChevronDown className={cn("h-4 w-4 transition-transform", servicesOpen && "rotate-180")} />
+            </button>
+            {servicesOpen && (
+              <div className="ml-3 flex flex-col gap-1 border-l-2 border-border pl-3">
+                {servicesLinks.map((s) => (
+                  <Link
+                    key={s.to}
+                    to={s.to}
+                    onClick={() => setOpen(false)}
+                    className="rounded-md px-3 py-2 text-sm font-medium text-foreground/75 hover:bg-secondary hover:text-primary"
+                  >
+                    {s.label}
+                  </Link>
+                ))}
+              </div>
+            )}
+
             {navLinks.map((l) => (
               <Link
                 key={l.to}

@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Section, FadeIn, Eyebrow } from "@/components/section";
 import { Button } from "@/components/ui/button";
-import { Compass, MessageSquare, Briefcase, BookOpen, Check } from "lucide-react";
+import { Compass, MessageSquare, Briefcase, BookOpen, Check, Trophy, Stethoscope, GraduationCap, ArrowRightLeft, ArrowUpRight } from "lucide-react";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
@@ -81,6 +81,33 @@ const services = [
   },
 ];
 
+const specialized = [
+  {
+    icon: Trophy,
+    title: "Athletic Recruitment",
+    desc: "D1, D2, D3 placement support for student-athletes across all sports.",
+    to: "/services/athletic-recruitment" as const,
+  },
+  {
+    icon: Stethoscope,
+    title: "BS/MD Programs",
+    desc: "Direct medical school admissions — long-term planning from middle school onward.",
+    to: "/services/bs-md-programs" as const,
+  },
+  {
+    icon: GraduationCap,
+    title: "Graduate Admissions",
+    desc: "MBA, law, PhD applications — school lists, essays, and interview prep.",
+    to: "/services/graduate-admissions" as const,
+  },
+  {
+    icon: ArrowRightLeft,
+    title: "Transfer Admissions",
+    desc: "Already in college? We help you transfer to your reach school.",
+    to: "/services/transfer-admissions" as const,
+  },
+];
+
 function ServicesPage() {
   return (
     <>
@@ -129,6 +156,34 @@ function ServicesPage() {
           </Section>
         ))}
       </div>
+
+      <Section className="border-t border-border">
+        <FadeIn>
+          <Eyebrow>Specialized programs</Eyebrow>
+          <h2 className="mt-4 max-w-3xl font-serif text-4xl font-bold text-primary text-balance lg:text-5xl">
+            More specialized programs.
+          </h2>
+        </FadeIn>
+        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {specialized.map((s, i) => (
+            <FadeIn key={s.title} delay={i * 0.06}>
+              <Link
+                to={s.to}
+                className="group flex h-full flex-col rounded-xl border border-border bg-card p-7 transition-all hover:-translate-y-1 hover:border-[var(--gold)]/50 hover:shadow-[0_18px_40px_-20px_oklch(0.24_0.07_265_/_0.25)]"
+              >
+                <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-secondary text-primary group-hover:bg-[var(--gold)] group-hover:text-[var(--gold-foreground)] transition-colors">
+                  <s.icon className="h-5 w-5" />
+                </div>
+                <h3 className="mt-6 font-serif text-lg font-semibold text-primary">{s.title}</h3>
+                <p className="mt-3 flex-1 text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
+                <span className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-primary">
+                  Learn more <ArrowUpRight className="h-3.5 w-3.5" />
+                </span>
+              </Link>
+            </FadeIn>
+          ))}
+        </div>
+      </Section>
 
       <Section className="border-t border-border text-center">
         <FadeIn>

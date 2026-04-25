@@ -69,7 +69,7 @@ function ContactPage() {
                 <Phone className="h-4 w-4" />
               </span>
               <div>
-                <p className="font-semibold text-foreground">(617) 555-0142</p>
+                <a href="tel:+17817894789" className="font-semibold text-foreground hover:text-primary">(781) 789-4789</a>
                 <p className="text-muted-foreground">Mon–Fri, 9am–7pm ET</p>
               </div>
             </li>
@@ -78,7 +78,7 @@ function ContactPage() {
                 <Mail className="h-4 w-4" />
               </span>
               <div>
-                <p className="font-semibold text-foreground">hello@4schoolers.com</p>
+                <a href="mailto:help@4schoolers.com" className="font-semibold text-foreground hover:text-primary">help@4schoolers.com</a>
                 <p className="text-muted-foreground">Replies within 1 business day</p>
               </div>
             </li>
@@ -87,8 +87,8 @@ function ContactPage() {
                 <MapPin className="h-4 w-4" />
               </span>
               <div>
-                <p className="font-semibold text-foreground">Boston · New York · Online</p>
-                <p className="text-muted-foreground">In-person and remote sessions</p>
+                <p className="font-semibold text-foreground">1309 Beacon Street, Brookline, MA</p>
+                <p className="text-muted-foreground">In-person and remote sessions worldwide</p>
               </div>
             </li>
           </ul>

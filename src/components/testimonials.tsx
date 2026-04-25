@@ -5,24 +5,34 @@ import { Quote } from "lucide-react";
 
 const testimonials = [
   {
-    quote: "4Schoolers transformed how my daughter approached her applications. The essay coaching alone was worth every penny — she got into Yale early.",
-    author: "Priya M.",
-    role: "Parent · Yale '28",
+    quote:
+      "Amazing tutors. I would not have been accepted into Dartmouth College without 4Schoolers. Their tutors raised my SAT score by nearly 400 points. 4Schoolers has opened so many doors for me.",
+    author: "Student",
+    role: "Dartmouth College",
   },
   {
-    quote: "I came in unsure of where to even apply. By senior year, I had a clear story, a sharpened resume, and acceptances from Princeton and Columbia.",
-    author: "Daniel K.",
-    role: "Princeton '27",
+    quote:
+      "My high-school kids have been with 4Schoolers since elementary school. Both are straight-A students — and one scored in the top 98th percentile on the SAT in 8th grade. What matters most is that they have real confidence and know how to think, not just memorize.",
+    author: "Parent of two students",
+    role: "Long-time family",
   },
   {
-    quote: "Their interview prep was unmatched. I walked into my Harvard interview feeling like I had been doing this for years.",
-    author: "Sarah L.",
-    role: "Harvard '26",
+    quote:
+      "The wonderful team at 4Schoolers not only helped navigate my daughter through the complicated college admissions process but also ignited her passion for advanced mathematics and gave her life-long skills of quick thinking and problem solving.",
+    author: "Parent",
+    role: "College admissions client",
   },
   {
-    quote: "What sets 4Schoolers apart is the long view — they started with my son in 8th grade and built a real strategy, not a last-minute scramble.",
-    author: "Robert C.",
-    role: "Parent · MIT '27",
+    quote:
+      "Irina and her staff tutored my son for two years via Skype. As a result of this well-organized tutoring, he was admitted to a very competitive school in New York City.",
+    author: "Parent",
+    role: "International family",
+  },
+  {
+    quote:
+      "Thanks to 4Schoolers, my child — who was failing mathematics — is now pursuing economics in college. He hated math originally, but once he understood it, he fell in love with it. Now he wants to get his PhD.",
+    author: "Parent",
+    role: "Math turnaround story",
   },
 ];
 
@@ -44,7 +54,7 @@ export function Testimonials() {
         >
           <CarouselContent>
             {testimonials.map((t) => (
-              <CarouselItem key={t.author} className="lg:basis-1/2">
+              <CarouselItem key={t.author + t.role} className="lg:basis-1/2">
                 <figure className="flex h-full flex-col rounded-2xl border border-border bg-card p-8 lg:p-12">
                   <Quote className="h-9 w-9 text-[var(--gold)]" />
                   <blockquote className="mt-6 flex-1 font-serif text-2xl leading-snug text-primary text-balance lg:text-3xl">

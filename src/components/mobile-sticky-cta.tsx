@@ -30,7 +30,7 @@ export function MobileStickyCTA() {
       )}
     >
       <a
-        href="tel:+16175550142"
+        href="tel:+17817894789"
         className="flex h-11 items-center justify-center gap-2 rounded-md border border-primary text-sm font-semibold text-primary"
       >
         <Phone className="h-4 w-4" /> Call

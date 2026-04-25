@@ -30,7 +30,6 @@ function ResetPasswordPage() {
   const [loading, setLoading] = useState(false);
   const [ready, setReady] = useState(false);
   const form = useForm<FormValues>({
-    // @ts-expect-error - zod version mismatch between project and @hookform/resolvers peer
     resolver: zodResolver(schema),
     defaultValues: { password: "", confirm: "" },
   });
