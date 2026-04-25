@@ -108,6 +108,7 @@ const specialized = [
   },
 ];
 
+function ServicesPage() {
   return (
     <>
       <Section className="pt-16 lg:pt-20">
