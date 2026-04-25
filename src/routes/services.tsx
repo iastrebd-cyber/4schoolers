@@ -81,7 +81,33 @@ const services = [
   },
 ];
 
-function ServicesPage() {
+const specialized = [
+  {
+    icon: Trophy,
+    title: "Athletic Recruitment",
+    desc: "D1, D2, D3 placement support for student-athletes across all sports.",
+    to: "/services/athletic-recruitment" as const,
+  },
+  {
+    icon: Stethoscope,
+    title: "BS/MD Programs",
+    desc: "Direct medical school admissions — long-term planning from middle school onward.",
+    to: "/services/bs-md-programs" as const,
+  },
+  {
+    icon: GraduationCap,
+    title: "Graduate Admissions",
+    desc: "MBA, law, PhD applications — school lists, essays, and interview prep.",
+    to: "/services/graduate-admissions" as const,
+  },
+  {
+    icon: ArrowRightLeft,
+    title: "Transfer Admissions",
+    desc: "Already in college? We help you transfer to your reach school.",
+    to: "/services/transfer-admissions" as const,
+  },
+];
+
   return (
     <>
       <Section className="pt-16 lg:pt-20">
