@@ -23,7 +23,6 @@ function ForgotPasswordPage() {
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
   const form = useForm<FormValues>({
-    // @ts-expect-error - zod version mismatch between project and @hookform/resolvers peer
     resolver: zodResolver(schema),
     defaultValues: { email: "" },
   });
