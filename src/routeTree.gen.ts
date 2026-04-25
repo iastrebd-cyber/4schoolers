@@ -22,6 +22,10 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ServicesTransferAdmissionsRouteImport } from './routes/services.transfer-admissions'
+import { Route as ServicesGraduateAdmissionsRouteImport } from './routes/services.graduate-admissions'
+import { Route as ServicesBsMdProgramsRouteImport } from './routes/services.bs-md-programs'
+import { Route as ServicesAthleticRecruitmentRouteImport } from './routes/services.athletic-recruitment'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authenticated/dashboard.index'
 import { Route as AuthenticatedDashboardUniversitiesRouteImport } from './routes/_authenticated/dashboard.universities'
@@ -94,6 +98,29 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ServicesTransferAdmissionsRoute =
+  ServicesTransferAdmissionsRouteImport.update({
+    id: '/transfer-admissions',
+    path: '/transfer-admissions',
+    getParentRoute: () => ServicesRoute,
+  } as any)
+const ServicesGraduateAdmissionsRoute =
+  ServicesGraduateAdmissionsRouteImport.update({
+    id: '/graduate-admissions',
+    path: '/graduate-admissions',
+    getParentRoute: () => ServicesRoute,
+  } as any)
+const ServicesBsMdProgramsRoute = ServicesBsMdProgramsRouteImport.update({
+  id: '/bs-md-programs',
+  path: '/bs-md-programs',
+  getParentRoute: () => ServicesRoute,
+} as any)
+const ServicesAthleticRecruitmentRoute =
+  ServicesAthleticRecruitmentRouteImport.update({
+    id: '/athletic-recruitment',
+    path: '/athletic-recruitment',
+    getParentRoute: () => ServicesRoute,
+  } as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -145,11 +172,15 @@ export interface FileRoutesByFullPath {
   '/quiz': typeof QuizRoute
   '/reset-password': typeof ResetPasswordRoute
   '/resources': typeof ResourcesRoute
-  '/services': typeof ServicesRoute
+  '/services': typeof ServicesRouteWithChildren
   '/signup': typeof SignupRoute
   '/success-stories': typeof SuccessStoriesRoute
   '/team': typeof TeamRoute
   '/dashboard': typeof AuthenticatedDashboardRouteWithChildren
+  '/services/athletic-recruitment': typeof ServicesAthleticRecruitmentRoute
+  '/services/bs-md-programs': typeof ServicesBsMdProgramsRoute
+  '/services/graduate-admissions': typeof ServicesGraduateAdmissionsRoute
+  '/services/transfer-admissions': typeof ServicesTransferAdmissionsRoute
   '/dashboard/profile': typeof AuthenticatedDashboardProfileRoute
   '/dashboard/progress': typeof AuthenticatedDashboardProgressRoute
   '/dashboard/quizzes': typeof AuthenticatedDashboardQuizzesRoute
@@ -166,10 +197,14 @@ export interface FileRoutesByTo {
   '/quiz': typeof QuizRoute
   '/reset-password': typeof ResetPasswordRoute
   '/resources': typeof ResourcesRoute
-  '/services': typeof ServicesRoute
+  '/services': typeof ServicesRouteWithChildren
   '/signup': typeof SignupRoute
   '/success-stories': typeof SuccessStoriesRoute
   '/team': typeof TeamRoute
+  '/services/athletic-recruitment': typeof ServicesAthleticRecruitmentRoute
+  '/services/bs-md-programs': typeof ServicesBsMdProgramsRoute
+  '/services/graduate-admissions': typeof ServicesGraduateAdmissionsRoute
+  '/services/transfer-admissions': typeof ServicesTransferAdmissionsRoute
   '/dashboard/profile': typeof AuthenticatedDashboardProfileRoute
   '/dashboard/progress': typeof AuthenticatedDashboardProgressRoute
   '/dashboard/quizzes': typeof AuthenticatedDashboardQuizzesRoute
@@ -188,11 +223,15 @@ export interface FileRoutesById {
   '/quiz': typeof QuizRoute
   '/reset-password': typeof ResetPasswordRoute
   '/resources': typeof ResourcesRoute
-  '/services': typeof ServicesRoute
+  '/services': typeof ServicesRouteWithChildren
   '/signup': typeof SignupRoute
   '/success-stories': typeof SuccessStoriesRoute
   '/team': typeof TeamRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRouteWithChildren
+  '/services/athletic-recruitment': typeof ServicesAthleticRecruitmentRoute
+  '/services/bs-md-programs': typeof ServicesBsMdProgramsRoute
+  '/services/graduate-admissions': typeof ServicesGraduateAdmissionsRoute
+  '/services/transfer-admissions': typeof ServicesTransferAdmissionsRoute
   '/_authenticated/dashboard/profile': typeof AuthenticatedDashboardProfileRoute
   '/_authenticated/dashboard/progress': typeof AuthenticatedDashboardProgressRoute
   '/_authenticated/dashboard/quizzes': typeof AuthenticatedDashboardQuizzesRoute
@@ -216,6 +255,10 @@ export interface FileRouteTypes {
     | '/success-stories'
     | '/team'
     | '/dashboard'
+    | '/services/athletic-recruitment'
+    | '/services/bs-md-programs'
+    | '/services/graduate-admissions'
+    | '/services/transfer-admissions'
     | '/dashboard/profile'
     | '/dashboard/progress'
     | '/dashboard/quizzes'
@@ -236,6 +279,10 @@ export interface FileRouteTypes {
     | '/signup'
     | '/success-stories'
     | '/team'
+    | '/services/athletic-recruitment'
+    | '/services/bs-md-programs'
+    | '/services/graduate-admissions'
+    | '/services/transfer-admissions'
     | '/dashboard/profile'
     | '/dashboard/progress'
     | '/dashboard/quizzes'
@@ -258,6 +305,10 @@ export interface FileRouteTypes {
     | '/success-stories'
     | '/team'
     | '/_authenticated/dashboard'
+    | '/services/athletic-recruitment'
+    | '/services/bs-md-programs'
+    | '/services/graduate-admissions'
+    | '/services/transfer-admissions'
     | '/_authenticated/dashboard/profile'
     | '/_authenticated/dashboard/progress'
     | '/_authenticated/dashboard/quizzes'
@@ -276,7 +327,7 @@ export interface RootRouteChildren {
   QuizRoute: typeof QuizRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   ResourcesRoute: typeof ResourcesRoute
-  ServicesRoute: typeof ServicesRoute
+  ServicesRoute: typeof ServicesRouteWithChildren
   SignupRoute: typeof SignupRoute
   SuccessStoriesRoute: typeof SuccessStoriesRoute
   TeamRoute: typeof TeamRoute
@@ -375,6 +426,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/services/transfer-admissions': {
+      id: '/services/transfer-admissions'
+      path: '/transfer-admissions'
+      fullPath: '/services/transfer-admissions'
+      preLoaderRoute: typeof ServicesTransferAdmissionsRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/graduate-admissions': {
+      id: '/services/graduate-admissions'
+      path: '/graduate-admissions'
+      fullPath: '/services/graduate-admissions'
+      preLoaderRoute: typeof ServicesGraduateAdmissionsRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/bs-md-programs': {
+      id: '/services/bs-md-programs'
+      path: '/bs-md-programs'
+      fullPath: '/services/bs-md-programs'
+      preLoaderRoute: typeof ServicesBsMdProgramsRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/athletic-recruitment': {
+      id: '/services/athletic-recruitment'
+      path: '/athletic-recruitment'
+      fullPath: '/services/athletic-recruitment'
+      preLoaderRoute: typeof ServicesAthleticRecruitmentRouteImport
+      parentRoute: typeof ServicesRoute
+    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
@@ -464,6 +543,24 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
   AuthenticatedRouteChildren,
 )
 
+interface ServicesRouteChildren {
+  ServicesAthleticRecruitmentRoute: typeof ServicesAthleticRecruitmentRoute
+  ServicesBsMdProgramsRoute: typeof ServicesBsMdProgramsRoute
+  ServicesGraduateAdmissionsRoute: typeof ServicesGraduateAdmissionsRoute
+  ServicesTransferAdmissionsRoute: typeof ServicesTransferAdmissionsRoute
+}
+
+const ServicesRouteChildren: ServicesRouteChildren = {
+  ServicesAthleticRecruitmentRoute: ServicesAthleticRecruitmentRoute,
+  ServicesBsMdProgramsRoute: ServicesBsMdProgramsRoute,
+  ServicesGraduateAdmissionsRoute: ServicesGraduateAdmissionsRoute,
+  ServicesTransferAdmissionsRoute: ServicesTransferAdmissionsRoute,
+}
+
+const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
+  ServicesRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
@@ -474,7 +571,7 @@ const rootRouteChildren: RootRouteChildren = {
   QuizRoute: QuizRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   ResourcesRoute: ResourcesRoute,
-  ServicesRoute: ServicesRoute,
+  ServicesRoute: ServicesRouteWithChildren,
   SignupRoute: SignupRoute,
   SuccessStoriesRoute: SuccessStoriesRoute,
   TeamRoute: TeamRoute,
