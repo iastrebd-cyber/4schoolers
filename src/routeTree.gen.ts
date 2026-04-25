@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TeamRouteImport } from './routes/team'
 import { Route as SuccessStoriesRouteImport } from './routes/success-stories'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as ServicesRouteImport } from './routes/services'
@@ -29,6 +30,11 @@ import { Route as AuthenticatedDashboardQuizzesRouteImport } from './routes/_aut
 import { Route as AuthenticatedDashboardProgressRouteImport } from './routes/_authenticated/dashboard.progress'
 import { Route as AuthenticatedDashboardProfileRouteImport } from './routes/_authenticated/dashboard.profile'
 
+const TeamRoute = TeamRouteImport.update({
+  id: '/team',
+  path: '/team',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SuccessStoriesRoute = SuccessStoriesRouteImport.update({
   id: '/success-stories',
   path: '/success-stories',
@@ -142,6 +148,7 @@ export interface FileRoutesByFullPath {
   '/services': typeof ServicesRoute
   '/signup': typeof SignupRoute
   '/success-stories': typeof SuccessStoriesRoute
+  '/team': typeof TeamRoute
   '/dashboard': typeof AuthenticatedDashboardRouteWithChildren
   '/dashboard/profile': typeof AuthenticatedDashboardProfileRoute
   '/dashboard/progress': typeof AuthenticatedDashboardProgressRoute
@@ -162,6 +169,7 @@ export interface FileRoutesByTo {
   '/services': typeof ServicesRoute
   '/signup': typeof SignupRoute
   '/success-stories': typeof SuccessStoriesRoute
+  '/team': typeof TeamRoute
   '/dashboard/profile': typeof AuthenticatedDashboardProfileRoute
   '/dashboard/progress': typeof AuthenticatedDashboardProgressRoute
   '/dashboard/quizzes': typeof AuthenticatedDashboardQuizzesRoute
@@ -183,6 +191,7 @@ export interface FileRoutesById {
   '/services': typeof ServicesRoute
   '/signup': typeof SignupRoute
   '/success-stories': typeof SuccessStoriesRoute
+  '/team': typeof TeamRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRouteWithChildren
   '/_authenticated/dashboard/profile': typeof AuthenticatedDashboardProfileRoute
   '/_authenticated/dashboard/progress': typeof AuthenticatedDashboardProgressRoute
@@ -205,6 +214,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/signup'
     | '/success-stories'
+    | '/team'
     | '/dashboard'
     | '/dashboard/profile'
     | '/dashboard/progress'
@@ -225,6 +235,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/signup'
     | '/success-stories'
+    | '/team'
     | '/dashboard/profile'
     | '/dashboard/progress'
     | '/dashboard/quizzes'
@@ -245,6 +256,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/signup'
     | '/success-stories'
+    | '/team'
     | '/_authenticated/dashboard'
     | '/_authenticated/dashboard/profile'
     | '/_authenticated/dashboard/progress'
@@ -267,10 +279,18 @@ export interface RootRouteChildren {
   ServicesRoute: typeof ServicesRoute
   SignupRoute: typeof SignupRoute
   SuccessStoriesRoute: typeof SuccessStoriesRoute
+  TeamRoute: typeof TeamRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/team': {
+      id: '/team'
+      path: '/team'
+      fullPath: '/team'
+      preLoaderRoute: typeof TeamRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/success-stories': {
       id: '/success-stories'
       path: '/success-stories'
@@ -457,6 +477,7 @@ const rootRouteChildren: RootRouteChildren = {
   ServicesRoute: ServicesRoute,
   SignupRoute: SignupRoute,
   SuccessStoriesRoute: SuccessStoriesRoute,
+  TeamRoute: TeamRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
