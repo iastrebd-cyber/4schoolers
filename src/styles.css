@@ -125,3 +125,15 @@
   50% { box-shadow: 0 0 0 12px oklch(0.745 0.12 82 / 0); }
 }
 .pulse-gold { animation: pulse-gold 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+
+@keyframes flag-marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+.animate-flag-marquee {
+  animation: flag-marquee 45s linear infinite;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-flag-marquee { animation: none; }
+}
