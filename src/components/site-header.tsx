@@ -1,6 +1,16 @@
 import { Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { Menu, X, LogOut, LayoutDashboard, ChevronDown } from "lucide-react";
+import {
+  Menu,
+  X,
+  LogOut,
+  LayoutDashboard,
+  ChevronDown,
+  User,
+  UserPlus,
+  LogIn,
+  UserCircle,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
@@ -9,6 +19,14 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/use-auth";
 import logo from "@/assets/logo.png";
@@ -32,6 +50,7 @@ const navLinks = [
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [accountOpen, setAccountOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const auth = useAuth();
 
@@ -95,27 +114,68 @@ export function SiteHeader() {
         </nav>
 
         <div className="hidden lg:flex lg:items-center lg:gap-3">
-          {auth.isAuthenticated ? (
-            <>
-              <Button asChild variant="outline" size="sm">
-                <Link to="/dashboard">
-                  <LayoutDashboard className="h-4 w-4" /> Dashboard
-                </Link>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm" className="gap-2">
+                <User className="h-4 w-4" />
+                Account
+                <ChevronDown className="h-3.5 w-3.5 opacity-70" />
               </Button>
-              <Button variant="ghost" size="sm" onClick={() => auth.signOut()}>
-                <LogOut className="h-4 w-4" /> Sign out
-              </Button>
-            </>
-          ) : (
-            <>
-              <Button asChild variant="ghost" size="sm">
-                <Link to="/login">Sign in</Link>
-              </Button>
-              <Button asChild className="bg-[var(--gold)] text-[var(--gold-foreground)] hover:bg-[var(--gold)]/90 shadow-sm">
-                <Link to="/signup">Sign up</Link>
-              </Button>
-            </>
-          )}
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56">
+              {auth.isAuthenticated ? (
+                <>
+                  <DropdownMenuLabel className="font-normal">
+                    <div className="text-xs text-muted-foreground">Signed in as</div>
+                    <div className="truncate text-sm font-medium text-primary">
+                      {auth.user?.email}
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link to="/dashboard" className="cursor-pointer">
+                      <LayoutDashboard className="h-4 w-4" />
+                      Dashboard
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/dashboard/profile" className="cursor-pointer">
+                      <UserCircle className="h-4 w-4" />
+                      Profile
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={() => auth.signOut()}
+                    className="cursor-pointer text-destructive focus:text-destructive"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    Sign out
+                  </DropdownMenuItem>
+                </>
+              ) : (
+                <>
+                  <DropdownMenuLabel>Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link to="/login" className="cursor-pointer">
+                      <LogIn className="h-4 w-4" />
+                      Sign in
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link
+                      to="/signup"
+                      className="cursor-pointer font-medium text-[var(--gold)] focus:text-[var(--gold)]"
+                    >
+                      <UserPlus className="h-4 w-4" />
+                      Sign up
+                    </Link>
+                  </DropdownMenuItem>
+                </>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
 
         <button
@@ -168,44 +228,74 @@ export function SiteHeader() {
               </Link>
             ))}
 
-            {auth.isAuthenticated ? (
-              <>
-                <Link
-                  to="/dashboard"
-                  onClick={() => setOpen(false)}
-                  className="mt-2 rounded-md px-3 py-3 text-base font-medium text-foreground/80 hover:bg-secondary hover:text-primary"
-                >
-                  Dashboard
-                </Link>
-                <Button
-                  variant="outline"
-                  className="mt-2"
-                  onClick={() => {
-                    auth.signOut();
-                    setOpen(false);
-                  }}
-                >
-                  <LogOut className="h-4 w-4" /> Sign out
-                </Button>
-              </>
-            ) : (
-              <>
-                <Link
-                  to="/login"
-                  onClick={() => setOpen(false)}
-                  className="mt-2 rounded-md px-3 py-3 text-base font-medium text-foreground/80 hover:bg-secondary hover:text-primary"
-                >
-                  Sign in
-                </Link>
-                <Button
-                  asChild
-                  className="mt-2 bg-[var(--gold)] text-[var(--gold-foreground)] hover:bg-[var(--gold)]/90"
-                >
-                  <Link to="/signup" onClick={() => setOpen(false)}>
-                    Sign up
-                  </Link>
-                </Button>
-              </>
+            <button
+              type="button"
+              onClick={() => setAccountOpen((v) => !v)}
+              className="mt-2 flex items-center justify-between rounded-md px-3 py-3 text-base font-medium text-foreground/80 hover:bg-secondary hover:text-primary"
+              aria-expanded={accountOpen}
+            >
+              <span className="inline-flex items-center gap-2">
+                <User className="h-4 w-4" />
+                Account
+              </span>
+              <ChevronDown className={cn("h-4 w-4 transition-transform", accountOpen && "rotate-180")} />
+            </button>
+            {accountOpen && (
+              <div className="ml-3 flex flex-col gap-1 border-l-2 border-border pl-3">
+                {auth.isAuthenticated ? (
+                  <>
+                    {auth.user?.email && (
+                      <div className="px-3 pt-1 pb-2">
+                        <div className="text-xs text-muted-foreground">Signed in as</div>
+                        <div className="truncate text-sm font-medium text-primary">
+                          {auth.user.email}
+                        </div>
+                      </div>
+                    )}
+                    <Link
+                      to="/dashboard"
+                      onClick={() => setOpen(false)}
+                      className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-foreground/80 hover:bg-secondary hover:text-primary"
+                    >
+                      <LayoutDashboard className="h-4 w-4" /> Dashboard
+                    </Link>
+                    <Link
+                      to="/dashboard/profile"
+                      onClick={() => setOpen(false)}
+                      className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-foreground/80 hover:bg-secondary hover:text-primary"
+                    >
+                      <UserCircle className="h-4 w-4" /> Profile
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        auth.signOut();
+                        setOpen(false);
+                      }}
+                      className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-left text-sm font-medium text-destructive hover:bg-secondary"
+                    >
+                      <LogOut className="h-4 w-4" /> Sign out
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      to="/login"
+                      onClick={() => setOpen(false)}
+                      className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-foreground/80 hover:bg-secondary hover:text-primary"
+                    >
+                      <LogIn className="h-4 w-4" /> Sign in
+                    </Link>
+                    <Link
+                      to="/signup"
+                      onClick={() => setOpen(false)}
+                      className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-semibold text-[var(--gold)] hover:bg-secondary"
+                    >
+                      <UserPlus className="h-4 w-4" /> Sign up
+                    </Link>
+                  </>
+                )}
+              </div>
             )}
           </nav>
         </div>
