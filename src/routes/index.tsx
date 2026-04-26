@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Hero } from "@/components/hero";
-import { ServicesQuietStrip } from "@/components/services-quiet-strip";
 import { TrustBento } from "@/components/trust-bento";
 import { ServicesGrid } from "@/components/services-grid";
 import { SpecialtyPrograms } from "@/components/specialty-programs";
@@ -36,7 +35,6 @@ function HomePage() {
   return (
     <>
       <Hero />
-      <ServicesQuietStrip />
       <TrustBento />
       <ServicesGrid />
       <SpecialtyPrograms />
