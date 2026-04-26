@@ -1,4 +1,4 @@
-import { Outlet, Link, createRootRouteWithContext, HeadContent, Scripts, useRouter } from "@tanstack/react-router";
+import { Outlet, Link, createRootRouteWithContext, HeadContent, Scripts, useRouter, useMatches } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -92,16 +92,22 @@ function AuthBridge() {
 }
 
 function RootComponent() {
+  const matches = useMatches();
+  const hideChrome = matches.some(
+    (m) =>
+      (m.search as { source?: string } | undefined)?.source === "ads",
+  );
+
   return (
     <AuthProvider>
       <AuthBridge />
       <div className="flex min-h-screen flex-col bg-background text-foreground">
-        <SiteHeader />
+        {!hideChrome && <SiteHeader />}
         <main className="flex-1">
           <Outlet />
         </main>
-        <SiteFooter />
-        <MobileStickyCTA />
+        {!hideChrome && <SiteFooter />}
+        {!hideChrome && <MobileStickyCTA />}
       </div>
     </AuthProvider>
   );
