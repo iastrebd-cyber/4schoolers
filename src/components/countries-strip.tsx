@@ -1,9 +1,30 @@
 import { Section, FadeIn, Eyebrow } from "./section";
 
-const flags = [
-  "🇰🇿", "🇰🇷", "🇯🇵", "🇨🇳", "🇩🇪", "🇨🇭", "🇬🇧", "🇨🇦",
-  "🇮🇳", "🇵🇰", "🇺🇦", "🇧🇾", "🇩🇰", "🇲🇽", "🇨🇴", "🇧🇷",
-  "🇮🇱", "🇰🇼", "🇺🇿", "🇵🇭", "🇦🇹", "🇦🇿", "🇷🇺", "🇱🇦",
+const countries: { code: string; name: string }[] = [
+  { code: "kz", name: "Kazakhstan" },
+  { code: "kr", name: "South Korea" },
+  { code: "jp", name: "Japan" },
+  { code: "cn", name: "China" },
+  { code: "de", name: "Germany" },
+  { code: "ch", name: "Switzerland" },
+  { code: "gb", name: "United Kingdom" },
+  { code: "ca", name: "Canada" },
+  { code: "in", name: "India" },
+  { code: "pk", name: "Pakistan" },
+  { code: "ua", name: "Ukraine" },
+  { code: "by", name: "Belarus" },
+  { code: "dk", name: "Denmark" },
+  { code: "mx", name: "Mexico" },
+  { code: "co", name: "Colombia" },
+  { code: "br", name: "Brazil" },
+  { code: "il", name: "Israel" },
+  { code: "kw", name: "Kuwait" },
+  { code: "uz", name: "Uzbekistan" },
+  { code: "ph", name: "Philippines" },
+  { code: "at", name: "Austria" },
+  { code: "az", name: "Azerbaijan" },
+  { code: "ru", name: "Russia" },
+  { code: "la", name: "Laos" },
 ];
 
 export function CountriesStrip() {
@@ -29,14 +50,19 @@ export function CountriesStrip() {
           aria-label="Countries we serve"
         >
           <div className="flex w-max gap-8 animate-flag-marquee">
-            {[...flags, ...flags].map((flag, i) => (
-              <span
-                key={i}
-                aria-hidden="true"
-                className="text-[40px] leading-none select-none"
-              >
-                {flag}
-              </span>
+            {[...countries, ...countries].map((c, i) => (
+              <img
+                key={`${c.code}-${i}`}
+                src={`https://flagcdn.com/w160/${c.code}.png`}
+                srcSet={`https://flagcdn.com/w160/${c.code}.png 1x, https://flagcdn.com/w320/${c.code}.png 2x`}
+                width={60}
+                height={40}
+                alt={c.name}
+                loading="lazy"
+                decoding="async"
+                draggable={false}
+                className="h-10 w-[60px] shrink-0 select-none object-cover"
+              />
             ))}
           </div>
         </div>
