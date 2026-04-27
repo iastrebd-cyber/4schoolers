@@ -36,38 +36,24 @@ export function UniversityCloud() {
         </p>
       </FadeIn>
       <FadeIn delay={0.1}>
-        <div
-          className="mt-10 relative w-full overflow-hidden"
-          style={{
-            maskImage:
-              "linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%)",
-            WebkitMaskImage:
-              "linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%)",
-          }}
-          role="marquee"
-          aria-label="Top university placements"
-        >
-          <div className="flex w-max gap-12 animate-flag-marquee">
-            {[...schools, ...schools].map((s, i) => (
-              <div
-                key={`${s.name}-${i}`}
-                className="flex shrink-0 items-center gap-3 font-serif text-lg font-semibold text-muted-foreground/80 transition-colors hover:text-primary"
-              >
-                <img
-                  src={s.icon}
-                  alt={`${s.name} emblem`}
-                  width={56}
-                  height={56}
-                  loading="lazy"
-                  decoding="async"
-                  draggable={false}
-                  className="h-14 w-14 shrink-0 select-none object-contain"
-                />
-                <span className="whitespace-nowrap">{s.name}</span>
-              </div>
-            ))}
-          </div>
-        </div>
+        <ul className="mt-10 grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3 lg:grid-cols-6">
+          {schools.map((s) => (
+            <li
+              key={s.name}
+              className="flex flex-col items-center justify-center gap-2 text-center font-serif text-base font-semibold text-muted-foreground/70 transition-all hover:text-primary"
+            >
+              <img
+                src={s.icon}
+                alt={`${s.name} emblem`}
+                width={56}
+                height={56}
+                loading="lazy"
+                className="h-14 w-14 object-contain"
+              />
+              <span>{s.name}</span>
+            </li>
+          ))}
+        </ul>
       </FadeIn>
     </Section>
   );
