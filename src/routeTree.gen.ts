@@ -22,6 +22,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ResourcesIndexRouteImport } from './routes/resources.index'
 import { Route as ServicesTransferAdmissionsRouteImport } from './routes/services.transfer-admissions'
 import { Route as ServicesGraduateAdmissionsRouteImport } from './routes/services.graduate-admissions'
 import { Route as ServicesBsMdProgramsRouteImport } from './routes/services.bs-md-programs'
@@ -98,6 +99,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const ResourcesIndexRoute = ResourcesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ResourcesRoute,
 } as any)
 const ServicesTransferAdmissionsRoute =
   ServicesTransferAdmissionsRouteImport.update({
@@ -188,6 +194,7 @@ export interface FileRoutesByFullPath {
   '/services/bs-md-programs': typeof ServicesBsMdProgramsRoute
   '/services/graduate-admissions': typeof ServicesGraduateAdmissionsRoute
   '/services/transfer-admissions': typeof ServicesTransferAdmissionsRoute
+  '/resources/': typeof ResourcesIndexRoute
   '/dashboard/profile': typeof AuthenticatedDashboardProfileRoute
   '/dashboard/progress': typeof AuthenticatedDashboardProgressRoute
   '/dashboard/quizzes': typeof AuthenticatedDashboardQuizzesRoute
@@ -203,7 +210,6 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/quiz': typeof QuizRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/resources': typeof ResourcesRouteWithChildren
   '/services': typeof ServicesRouteWithChildren
   '/signup': typeof SignupRoute
   '/success-stories': typeof SuccessStoriesRoute
@@ -213,6 +219,7 @@ export interface FileRoutesByTo {
   '/services/bs-md-programs': typeof ServicesBsMdProgramsRoute
   '/services/graduate-admissions': typeof ServicesGraduateAdmissionsRoute
   '/services/transfer-admissions': typeof ServicesTransferAdmissionsRoute
+  '/resources': typeof ResourcesIndexRoute
   '/dashboard/profile': typeof AuthenticatedDashboardProfileRoute
   '/dashboard/progress': typeof AuthenticatedDashboardProgressRoute
   '/dashboard/quizzes': typeof AuthenticatedDashboardQuizzesRoute
@@ -241,6 +248,7 @@ export interface FileRoutesById {
   '/services/bs-md-programs': typeof ServicesBsMdProgramsRoute
   '/services/graduate-admissions': typeof ServicesGraduateAdmissionsRoute
   '/services/transfer-admissions': typeof ServicesTransferAdmissionsRoute
+  '/resources/': typeof ResourcesIndexRoute
   '/_authenticated/dashboard/profile': typeof AuthenticatedDashboardProfileRoute
   '/_authenticated/dashboard/progress': typeof AuthenticatedDashboardProgressRoute
   '/_authenticated/dashboard/quizzes': typeof AuthenticatedDashboardQuizzesRoute
@@ -269,6 +277,7 @@ export interface FileRouteTypes {
     | '/services/bs-md-programs'
     | '/services/graduate-admissions'
     | '/services/transfer-admissions'
+    | '/resources/'
     | '/dashboard/profile'
     | '/dashboard/progress'
     | '/dashboard/quizzes'
@@ -284,7 +293,6 @@ export interface FileRouteTypes {
     | '/login'
     | '/quiz'
     | '/reset-password'
-    | '/resources'
     | '/services'
     | '/signup'
     | '/success-stories'
@@ -294,6 +302,7 @@ export interface FileRouteTypes {
     | '/services/bs-md-programs'
     | '/services/graduate-admissions'
     | '/services/transfer-admissions'
+    | '/resources'
     | '/dashboard/profile'
     | '/dashboard/progress'
     | '/dashboard/quizzes'
@@ -321,6 +330,7 @@ export interface FileRouteTypes {
     | '/services/bs-md-programs'
     | '/services/graduate-admissions'
     | '/services/transfer-admissions'
+    | '/resources/'
     | '/_authenticated/dashboard/profile'
     | '/_authenticated/dashboard/progress'
     | '/_authenticated/dashboard/quizzes'
@@ -437,6 +447,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/resources/': {
+      id: '/resources/'
+      path: '/'
+      fullPath: '/resources/'
+      preLoaderRoute: typeof ResourcesIndexRouteImport
+      parentRoute: typeof ResourcesRoute
     }
     '/services/transfer-admissions': {
       id: '/services/transfer-admissions'
@@ -564,10 +581,12 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
 
 interface ResourcesRouteChildren {
   ResourcesSlugRoute: typeof ResourcesSlugRoute
+  ResourcesIndexRoute: typeof ResourcesIndexRoute
 }
 
 const ResourcesRouteChildren: ResourcesRouteChildren = {
   ResourcesSlugRoute: ResourcesSlugRoute,
+  ResourcesIndexRoute: ResourcesIndexRoute,
 }
 
 const ResourcesRouteWithChildren = ResourcesRoute._addFileChildren(
