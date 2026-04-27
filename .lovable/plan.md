@@ -1,50 +1,103 @@
-# Обновление страницы /resources реальным контентом блога 4Schoolers
+## Цель
 
-Заменим placeholder-карточки реальными статьями из блога https://4schoolers.com/blog/, с настоящими ссылками, обложками и описаниями.
+Перенести **все статьи** блога 4schoolers.com на наш сайт как **внутренние страницы** — со всем оригинальным текстом и фотографиями, скачанными в наш репозиторий. Никаких ссылок наружу.
 
-## Реальные статьи из блога (7 шт.)
+## Почему сейчас "не хватает" статей
 
-| # | Категория | Заголовок | URL | Обложка |
-|---|-----------|-----------|-----|---------|
-| 1 | EMOTIONAL INTELLIGENCE | Emotional Intelligence: why do we care so much about it | `/2024/07/emotional-intelligence-why-do-we-care-so-much-about-it/` | istockphoto-1319802389 |
-| 2 | PEDAGOGY | Why Must Students Learn So Much | `/2024/06/why-must-students-learn-so-much/` | Image_20240618142326 |
-| 3 | UNIVERSITIES | Why You Should Apply to Columbia University | `/2024/06/why-you-should-apply-to-columbia-university/` | gs-student-leadership-awards-2024 |
-| 4 | STUDENT STORIES | 4Schoolers Student Interviews Nobel Prize Winning Physicist Sheldon Glashow | `/2024/04/sheldon-glashow/` | (нет обложки в фиде) |
-| 5 | STRATEGY | Picking a High School for College Admissions Success | `/2024/03/picking-a-high-school-for-college-admissions-success/` | (нет обложки в фиде) |
-| 6 | EARLY PREP | Why Middle Schoolers Should Work with a College Counselor | `/2024/03/why-middle-schoolers-should-work-with-a-college-counselor/` | qtq80-OEUDrQ |
-| 7 | UNIVERSITIES | Why You Should Apply to MIT | `/2024/02/applying-to-mit/` | (нет обложки в фиде) |
+`https://4schoolers.com/blog/` показывает только 7 постов (6 на стр.1 + 1 на стр.2: MIT). Но на сайте есть ещё 3 поста, скрытых из общего листинга, но доступных по прямой ссылке:
 
-## Что меняем в `src/routes/resources.tsx`
+- *An English Class in Cape Cod* (Aug 2024)
+- *Success is palpable — Summer Camp Journal* (Jul 2024)
+- *Students from Kazakhstan at 4Schoolers' Competition Camp* (Aug 2024)
 
-1. **Расширить тип `articles`** — добавить поля `description`, `href` (внешняя ссылка на 4schoolers.com), `image` (URL обложки или `null`), `date`. Сохранить `tag`, `title`, `time`.
+Итого — **10 статей**, и все они станут внутренними страницами на нашем сайте.
 
-2. **Вписать реальные данные** — для каждой статьи:
-   - Описание — 1–2 предложения из реального intro-текста статьи (из RSS-фида блога), переведённые в редакторский тон.
-   - Время чтения — оценка по длине превью (6–15 min).
-   - Дата публикации — отображаем мелким шрифтом рядом с временем чтения.
+## Что будет сделано
 
-3. **Карточки → внешние ссылки.** Заменить `<Link to="/resources">` на `<a href={article.href} target="_blank" rel="noopener noreferrer">` — статьи живут на основном сайте, а не внутри приложения. Иконку `ArrowUpRight` оставляем (теперь она семантически верна — внешний переход).
+### 1. Скачать все изображения в репозиторий
 
-4. **Обложки.** Если у статьи есть `image` — рендерим `<img>` с `loading="lazy"` и `object-cover` в той же `aspect-[4/3]` рамке. Если нет — оставляем градиентный fallback (текущий gradient-block).
+В `src/assets/articles/<slug>/` для каждой статьи: `cover.jpg` + все inline-фото из тела поста. Скачивание `curl` с `4schoolers.com/wp-content/uploads/...`. После этого никакие изображения больше не запрашиваются с 4schoolers.com.
 
-5. **Подзаголовок страницы** — обновить с *"Free guides written by our senior consultants…"* на:
-   *"Field notes and essays from our senior consultants — on character, craft, and the long arc of preparation."*
+### 2. Содержимое каждой статьи (data-driven)
 
-6. **Meta-теги в `head()`** — обновить description под актуальный список тем:
-   *"Essays on emotional intelligence, school choice, Ivy League admissions, and the pedagogy behind 4Schoolers' approach."*
+Создать `src/content/articles.ts` — массив объектов с полным текстом каждой статьи:
 
-7. **Сохраняем без изменений**: grid-раскладку (1/2/3 колонки), `FadeIn` анимации, gold hover, `Eyebrow` "Resources", H1 "Insights from inside the admissions office.", шрифты и spacing.
+```ts
+type Article = {
+  slug: string;             // например "kazakhstan-camp"
+  tag: string;              // "Student Stories", "Strategy", ...
+  title: string;
+  description: string;      // 1-2 предложения для карточки и og:description
+  date: string;             // "August 2024"
+  readTime: string;         // "5 min read"
+  cover: string;            // импорт из src/assets/articles/<slug>/cover.jpg
+  blocks: Block[];          // упорядоченные блоки контента
+};
+
+type Block =
+  | { type: "p"; text: string }
+  | { type: "h2"; text: string }
+  | { type: "img"; src: string; alt: string; caption?: string }
+  | { type: "quote"; text: string; cite?: string };
+```
+
+Тексты переношу **дословно**, с сохранением абзацев и порядка фотографий, ровно как на 4schoolers.com.
+
+10 slug'ов:
+1. `emotional-intelligence`
+2. `why-must-students-learn-so-much`
+3. `why-apply-to-columbia`
+4. `sheldon-glashow-interview`
+5. `picking-a-high-school`
+6. `why-middle-schoolers-need-counselor`
+7. `why-apply-to-mit`
+8. `english-class-cape-cod`
+9. `summer-camp-journal`
+10. `kazakhstan-camp`
+
+### 3. Динамический маршрут статьи
+
+Файл `src/routes/resources.$slug.tsx` (TanStack flat-routing) → URL `/resources/<slug>`.
+
+- `loader` находит статью по slug в `articles.ts`. Если нет — `notFound()`.
+- `head()` со своим title / description / og:image (используется `cover`) для каждой статьи. Это даёт корректные превью при шаринге в WhatsApp/Slack/iMessage.
+- Компонент рендерит редакторский layout: Eyebrow (tag), serif H1, дата + read time, hero `cover.jpg`, затем `blocks.map()` с типами `p` / `h2` / `img` / `quote`. Стиль соответствует уже существующим страницам (`Section`, `FadeIn`, `Eyebrow`, `font-serif`, `text-muted-foreground`).
+- В конце — мягкий блок "Related reading" с 2-3 другими статьями (внутренние `<Link>`) и CTA `<Link to="/contact">Talk to our team</Link>`.
+- `errorComponent` и `notFoundComponent` обязательно (требование TanStack).
+
+### 4. Обновить `/resources` (список)
+
+`src/routes/resources.tsx`:
+
+- Импортировать `articles` из `src/content/articles.ts`.
+- Удалить старый локальный массив с внешними href.
+- Карточки → `<Link to="/resources/$slug" params={{ slug: a.slug }}>` (внутренняя навигация, никаких `<a target="_blank">`, никаких `ArrowUpRight` со стрелкой "наружу" — заменю на обычную стрелку вправо).
+- Cover берётся из локального `a.cover` — все картинки гарантированно работают.
+
+### 5. Связать с остальным сайтом
+
+- **`CountriesStrip`** на главной: флаг Казахстана становится `<Link to="/resources/$slug" params={{ slug: "kazakhstan-camp" }}>` с aria-label *"See our Kazakhstan cohort"*. Остальные флаги — без изменений.
+- (Опционально, в этом же подходе) если на главной есть блок с превью статей — он тоже использует внутренние ссылки. Если такого блока нет, ничего лишнего не добавляю.
 
 ## Технические детали
 
-- Обложки тянем напрямую с `https://4schoolers.com/wp-content/uploads/...` — это публичные URL WordPress media library. Указываем полные размеры (не `-320x213` thumbnail), браузер сам отмасштабирует.
-- `target="_blank"` + `rel="noopener noreferrer"` обязательно (security + perf).
-- `aria-label` на каждой карточке: `"Read article: {title} on 4schoolers.com"` для скринридеров.
-- Тип articles становится: `{ tag: string; title: string; description: string; time: string; date: string; href: string; image: string | null }`.
-- Описание ограничиваем `line-clamp-3` (Tailwind plugin уже включён через shadcn config) для визуального выравнивания карточек разной длины.
+- **Новые файлы:**
+  - `src/assets/articles/<slug>/*.jpg` (~15-20 изображений суммарно)
+  - `src/content/articles.ts` (~600-900 строк, в основном текст)
+  - `src/routes/resources.$slug.tsx`
+- **Изменяемые файлы:**
+  - `src/routes/resources.tsx` — переключить на внутренние ссылки и общий источник данных
+  - `src/components/countries-strip.tsx` — кликабельный флаг KZ
+- **Не трогаем:** `src/integrations/supabase/*`, `routeTree.gen.ts` (генерится автоматически), Lovable Cloud / БД — статьи статичные, БД для них не нужна.
+- **SEO:** каждая страница получает свой `<title>`, `<meta description>`, `og:title`, `og:description`, `og:image`. Это даёт 10 индексируемых страниц вместо одной.
+- **Производительность:** изображения импортируются как Vite-ассеты → хешированные имена, кэш, lazy-load. На странице статьи — `loading="lazy"` для всех, кроме hero.
 
 ## Что НЕ делаем
 
-- Не меняем дизайн/цвета/типографику.
-- Не создаём внутренние страницы статей (`/resources/$slug`) — все ссылки наружу.
-- Не трогаем другие компоненты страницы или header/footer.
+- Не строим CMS / админку. Если позже захотите редактировать статьи без кода — это отдельная задача (Lovable Cloud + таблица `articles`).
+- Не добавляем комментарии, лайки, social share-кнопки (на оригинале они есть, но в нашем редакторском тоне они лишние; могу добавить позже по просьбе).
+- Не сохраняем оригинальный URL-формат `/2024/08/...` — у нас все статьи живут под `/resources/<slug>`, что лучше для SEO и понятнее структурно.
+
+## Объём работы
+
+Это довольно крупная единоразовая операция: ~10 статей × (текст + 1-3 фото + метаданные). После одобрения сделаю всё за один проход.
