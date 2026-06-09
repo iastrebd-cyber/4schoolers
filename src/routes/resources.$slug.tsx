@@ -152,7 +152,7 @@ function ArticlePage() {
                   params={{ slug: r.slug }}
                   className="group flex h-full flex-col rounded-xl border border-border bg-card p-6 transition-all hover:-translate-y-1 hover:border-[var(--gold)]/50"
                 >
-                  <div className="aspect-[4/3] w-full overflow-hidden rounded-lg bg-gradient-to-br from-primary/15 via-secondary to-[var(--gold)]/20">
+                  <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
                     {r.cover ? (
                       <img
                         src={r.cover}
@@ -160,7 +160,13 @@ function ArticlePage() {
                         loading="lazy"
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
-                    ) : null}
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-primary to-[oklch(0.18_0.04_265)]">
+                        <span className="font-serif text-4xl font-bold tracking-tight text-[var(--gold)]/90">
+                          4S
+                        </span>
+                      </div>
+                    )}
                   </div>
                   <span className="mt-5 text-xs font-semibold uppercase tracking-wider text-[var(--gold-foreground)]/75">
                     {r.tag}

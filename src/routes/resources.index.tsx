@@ -46,7 +46,7 @@ function ResourcesIndexPage() {
               aria-label={`Read essay: ${a.title}`}
               className="group flex h-full flex-col rounded-xl border border-border bg-card p-7 transition-all hover:-translate-y-1 hover:border-[var(--gold)]/50"
             >
-              <div className="aspect-[4/3] w-full overflow-hidden rounded-lg bg-gradient-to-br from-primary/15 via-secondary to-[var(--gold)]/20">
+              <div className="aspect-[4/3] w-full overflow-hidden rounded-lg">
                 {a.cover ? (
                   <img
                     src={a.cover}
@@ -54,7 +54,13 @@ function ResourcesIndexPage() {
                     loading="lazy"
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                ) : null}
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-primary to-[oklch(0.18_0.04_265)]">
+                    <span className="font-serif text-5xl font-bold tracking-tight text-[var(--gold)]/90">
+                      4S
+                    </span>
+                  </div>
+                )}
               </div>
               <span className="mt-6 text-xs font-semibold uppercase tracking-wider text-[var(--gold-foreground)]/75">
                 {a.tag}
