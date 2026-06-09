@@ -20,7 +20,14 @@ function CountUp({ to, suffix = "", duration = 1600 }: { to: number; suffix?: st
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, [inView, to, duration]);
-  return <span ref={ref}>{val}{suffix}</span>;
+  return (
+    <span ref={ref}>
+      {val}
+      {suffix && (
+        <span className="font-sans align-baseline text-[0.62em] font-bold">{suffix}</span>
+      )}
+    </span>
+  );
 }
 
 export function TrustBento() {
