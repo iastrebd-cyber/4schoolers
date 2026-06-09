@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Section, FadeIn, Eyebrow } from "@/components/section";
 import { Button } from "@/components/ui/button";
 import { Quote } from "lucide-react";
+import awardsPhoto from "@/assets/articles/why-apply-to-columbia/cover.jpg";
 
 export const Route = createFileRoute("/success-stories")({
   head: () => ({
@@ -69,17 +70,33 @@ function SuccessPage() {
   return (
     <>
       <Section className="pt-16 lg:pt-20">
-        <FadeIn>
-          <Eyebrow>Success Stories</Eyebrow>
-          <h1 className="mt-4 max-w-4xl font-serif text-5xl font-bold text-primary text-balance lg:text-6xl">
-            Real students. Real acceptances.
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg text-muted-foreground">
-            A small selection of the families we've worked with over the past 15 years.
-          </p>
-        </FadeIn>
+        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+          <FadeIn>
+            <Eyebrow>Success Stories</Eyebrow>
+            <h1 className="mt-4 font-serif text-5xl font-bold text-primary text-balance lg:text-6xl">
+              Real students. Real acceptances.
+            </h1>
+            <p className="mt-6 max-w-xl text-lg text-muted-foreground">
+              A small selection of the families we've worked with over the past 15 years.
+            </p>
+          </FadeIn>
+          <FadeIn delay={0.1}>
+            <div className="relative">
+              <div className="absolute -inset-3 -z-10 rounded-[1.75rem] bg-[var(--gold)]/15" />
+              <div className="overflow-hidden rounded-2xl border border-border shadow-xl shadow-primary/10">
+                <img
+                  src={awardsPhoto}
+                  alt="Excellence awards earned by 4Schoolers students"
+                  width={799}
+                  height={533}
+                  className="aspect-[3/2] w-full object-cover"
+                />
+              </div>
+            </div>
+          </FadeIn>
+        </div>
 
-        <div className="mt-14 grid grid-cols-2 gap-6 lg:grid-cols-4">
+        <div className="mt-16 grid grid-cols-2 gap-6 lg:grid-cols-4">
           {stats.map((s, i) => (
             <FadeIn key={s.l} delay={i * 0.08}>
               <div className="border-t-2 border-[var(--gold)] pt-5">
