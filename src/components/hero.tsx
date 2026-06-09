@@ -39,7 +39,7 @@ export function Hero() {
         </svg>
       </div>
 
-      <div className="mx-auto max-w-7xl px-6 pt-16 pb-16 lg:px-10 lg:pt-24 lg:pb-24">
+      <div className="mx-auto max-w-7xl px-6 pt-16 lg:px-10 lg:pt-24">
         <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
           {/* Left column — message */}
           <div>
@@ -129,14 +129,16 @@ export function Hero() {
             </div>
           </motion.div>
         </div>
+      </div>
 
-        {/* Placements */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.7, delay: 0.45 }}
-          className="mt-16 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-border pt-8 text-sm text-muted-foreground"
-        >
+      {/* Placements — full-width band */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.7, delay: 0.45 }}
+        className="mt-16 border-t border-border"
+      >
+        <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 px-6 py-8 text-sm text-muted-foreground lg:flex-nowrap lg:justify-between lg:px-10">
           <span className="text-xs font-semibold uppercase tracking-wider text-foreground/60">
             Placements:
           </span>
@@ -153,8 +155,8 @@ export function Hero() {
               <span className="font-serif text-base text-primary/80">{u.name}</span>
             </span>
           ))}
-        </motion.div>
-      </div>
+        </div>
+      </motion.div>
     </section>
   );
 }
