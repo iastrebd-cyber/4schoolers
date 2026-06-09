@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Section, FadeIn, Eyebrow } from "@/components/section";
 import { Button } from "@/components/ui/button";
+import storyPhoto from "@/assets/articles/why-middle-schoolers-need-counselor/cover.jpg";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -44,15 +45,27 @@ function AboutPage() {
       </Section>
 
       <Section className="bg-secondary/40 border-y border-border">
-        <div className="grid gap-12 lg:grid-cols-2">
+        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <FadeIn>
+            <div className="relative">
+              <div className="absolute -inset-3 -z-10 rounded-[1.75rem] bg-[var(--gold)]/15" />
+              <div className="overflow-hidden rounded-2xl border border-border shadow-xl shadow-primary/10">
+                <img
+                  src={storyPhoto}
+                  alt="A 4Schoolers educator working one-on-one with a student"
+                  width={1080}
+                  height={720}
+                  className="aspect-[3/2] w-full object-cover"
+                />
+              </div>
+            </div>
+          </FadeIn>
+          <FadeIn delay={0.1}>
             <Eyebrow>Our story</Eyebrow>
             <h2 className="mt-4 font-serif text-3xl font-bold text-primary lg:text-4xl">
               Founded by an educator who put students first.
             </h2>
-          </FadeIn>
-          <FadeIn delay={0.1}>
-            <div className="space-y-5 text-foreground/85 leading-relaxed">
+            <div className="mt-6 space-y-5 leading-relaxed text-foreground/85">
               <p>
                 In 2015, Irina Jitomirskaia, Ph.D., M.Ed. — a mother, teacher, and lifelong advocate for students — founded 4Schoolers in Brookline, Massachusetts. Her thesis was simple: pair every family with senior educators who actually understand the student behind the application.
               </p>
