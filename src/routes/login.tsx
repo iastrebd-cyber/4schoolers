@@ -36,14 +36,29 @@ function LoginPage() {
 
   const onSubmit = async (values: FormValues) => {
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword(values);
-    setLoading(false);
+    const { data, error } = await supabase.auth.signInWithPassword(values);
     if (error) {
+      setLoading(false);
       toast.error(error.message === "Invalid login credentials" ? "Invalid email or password" : error.message);
       return;
     }
     toast.success("Signed in");
-    window.location.href = search.redirect || "/dashboard";
+    if (search.redirect) {
+      window.location.href = search.redirect;
+      return;
+    }
+    // Route by account type.
+    let dest = "/dashboard";
+    const userId = data.user?.id;
+    if (userId) {
+      const { data: prof } = await supabase
+        .from("profiles")
+        .select("account_type")
+        .eq("id", userId)
+        .maybeSingle();
+      if (prof?.account_type === "provider") dest = "/provider";
+    }
+    window.location.href = dest;
   };
 
   return (

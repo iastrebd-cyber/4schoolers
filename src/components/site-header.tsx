@@ -10,6 +10,7 @@ import {
   UserPlus,
   LogIn,
   UserCircle,
+  Briefcase,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -43,6 +44,7 @@ const navLinks = [
   { to: "/about", label: "About" },
   { to: "/team", label: "Team" },
   { to: "/success-stories", label: "Success Stories" },
+  { to: "/providers", label: "Find a Tutor" },
   { to: "/resources", label: "Resources" },
   { to: "/contact", label: "Contact" },
 ] as const;
@@ -53,6 +55,7 @@ export function SiteHeader() {
   const [accountOpen, setAccountOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const auth = useAuth();
+  const isProvider = auth.accountType === "provider";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -132,18 +135,29 @@ export function SiteHeader() {
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild>
-                    <Link to="/dashboard" className="cursor-pointer">
-                      <LayoutDashboard className="h-4 w-4" />
-                      Dashboard
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link to="/dashboard/profile" className="cursor-pointer">
-                      <UserCircle className="h-4 w-4" />
-                      Profile
-                    </Link>
-                  </DropdownMenuItem>
+                  {isProvider ? (
+                    <DropdownMenuItem asChild>
+                      <Link to="/provider" className="cursor-pointer">
+                        <Briefcase className="h-4 w-4" />
+                        Provider Portal
+                      </Link>
+                    </DropdownMenuItem>
+                  ) : (
+                    <>
+                      <DropdownMenuItem asChild>
+                        <Link to="/dashboard" className="cursor-pointer">
+                          <LayoutDashboard className="h-4 w-4" />
+                          Dashboard
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link to="/dashboard/profile" className="cursor-pointer">
+                          <UserCircle className="h-4 w-4" />
+                          Profile
+                        </Link>
+                      </DropdownMenuItem>
+                    </>
+                  )}
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
                     onClick={() => auth.signOut()}
@@ -252,20 +266,32 @@ export function SiteHeader() {
                         </div>
                       </div>
                     )}
-                    <Link
-                      to="/dashboard"
-                      onClick={() => setOpen(false)}
-                      className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-foreground/80 hover:bg-secondary hover:text-primary"
-                    >
-                      <LayoutDashboard className="h-4 w-4" /> Dashboard
-                    </Link>
-                    <Link
-                      to="/dashboard/profile"
-                      onClick={() => setOpen(false)}
-                      className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-foreground/80 hover:bg-secondary hover:text-primary"
-                    >
-                      <UserCircle className="h-4 w-4" /> Profile
-                    </Link>
+                    {isProvider ? (
+                      <Link
+                        to="/provider"
+                        onClick={() => setOpen(false)}
+                        className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-foreground/80 hover:bg-secondary hover:text-primary"
+                      >
+                        <Briefcase className="h-4 w-4" /> Provider Portal
+                      </Link>
+                    ) : (
+                      <>
+                        <Link
+                          to="/dashboard"
+                          onClick={() => setOpen(false)}
+                          className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-foreground/80 hover:bg-secondary hover:text-primary"
+                        >
+                          <LayoutDashboard className="h-4 w-4" /> Dashboard
+                        </Link>
+                        <Link
+                          to="/dashboard/profile"
+                          onClick={() => setOpen(false)}
+                          className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-foreground/80 hover:bg-secondary hover:text-primary"
+                        >
+                          <UserCircle className="h-4 w-4" /> Profile
+                        </Link>
+                      </>
+                    )}
                     <button
                       type="button"
                       onClick={() => {

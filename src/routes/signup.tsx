@@ -4,10 +4,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
+import type { AccountType } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+import { GraduationCap, Briefcase } from "lucide-react";
 import { toast } from "sonner";
 
 const schema = z.object({
@@ -21,9 +24,15 @@ export const Route = createFileRoute("/signup")({
   component: SignupPage,
 });
 
+const accountOptions: { value: AccountType; title: string; desc: string; icon: typeof GraduationCap }[] = [
+  { value: "student", title: "Student / Parent", desc: "Plan admissions & find tutors", icon: GraduationCap },
+  { value: "provider", title: "Provider / Tutor", desc: "List your services & get students", icon: Briefcase },
+];
+
 function SignupPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [accountType, setAccountType] = useState<AccountType>("student");
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: { full_name: "", email: "", password: "" },
@@ -31,13 +40,13 @@ function SignupPage() {
 
   const onSubmit = async (values: FormValues) => {
     setLoading(true);
-    const redirectTo = `${window.location.origin}/dashboard`;
+    const redirectTo = `${window.location.origin}/login`;
     const { error } = await supabase.auth.signUp({
       email: values.email,
       password: values.password,
       options: {
         emailRedirectTo: redirectTo,
-        data: { full_name: values.full_name },
+        data: { full_name: values.full_name, account_type: accountType },
       },
     });
     setLoading(false);
@@ -58,9 +67,33 @@ function SignupPage() {
       <Card className="w-full">
         <CardHeader>
           <CardTitle className="font-serif text-2xl">Create account</CardTitle>
-          <CardDescription>Sign up as a student</CardDescription>
+          <CardDescription>Choose how you'll use 4Schoolers</CardDescription>
         </CardHeader>
         <CardContent>
+          <fieldset className="mb-5 grid grid-cols-2 gap-3">
+            {accountOptions.map((opt) => {
+              const selected = accountType === opt.value;
+              return (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={() => setAccountType(opt.value)}
+                  aria-pressed={selected}
+                  className={cn(
+                    "flex flex-col items-start gap-1 rounded-lg border p-3 text-left transition-colors",
+                    selected
+                      ? "border-[var(--gold)] bg-[var(--gold)]/10"
+                      : "border-border hover:border-foreground/30",
+                  )}
+                >
+                  <opt.icon className={cn("h-5 w-5", selected ? "text-[var(--gold)]" : "text-muted-foreground")} />
+                  <span className="text-sm font-semibold">{opt.title}</span>
+                  <span className="text-xs text-muted-foreground">{opt.desc}</span>
+                </button>
+              );
+            })}
+          </fieldset>
+
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="full_name">Full name</Label>
@@ -84,7 +117,7 @@ function SignupPage() {
               )}
             </div>
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Creating..." : "Sign up"}
+              {loading ? "Creating..." : accountType === "provider" ? "Sign up as provider" : "Sign up"}
             </Button>
             <p className="text-center text-sm">
               Already have an account?{" "}

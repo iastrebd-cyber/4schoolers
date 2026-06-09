@@ -44,8 +44,48 @@ export type Database = {
         }
         Relationships: []
       }
+      inquiries: {
+        Row: {
+          created_at: string
+          id: string
+          message: string
+          provider_id: string
+          status: Database["public"]["Enums"]["inquiry_status"]
+          student_email: string | null
+          student_id: string
+          student_name: string | null
+          subject: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          message: string
+          provider_id: string
+          status?: Database["public"]["Enums"]["inquiry_status"]
+          student_email?: string | null
+          student_id: string
+          student_name?: string | null
+          subject?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          message?: string
+          provider_id?: string
+          status?: Database["public"]["Enums"]["inquiry_status"]
+          student_email?: string | null
+          student_id?: string
+          student_name?: string | null
+          subject?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
+          account_type: Database["public"]["Enums"]["account_type"]
           avatar_url: string | null
           created_at: string
           current_grade: string | null
@@ -57,6 +97,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          account_type?: Database["public"]["Enums"]["account_type"]
           avatar_url?: string | null
           created_at?: string
           current_grade?: string | null
@@ -68,6 +109,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          account_type?: Database["public"]["Enums"]["account_type"]
           avatar_url?: string | null
           created_at?: string
           current_grade?: string | null
@@ -77,6 +119,108 @@ export type Database = {
           id?: string
           phone?: string | null
           updated_at?: string
+        }
+        Relationships: []
+      }
+      provider_availability: {
+        Row: {
+          created_at: string
+          day_of_week: number
+          end_time: string
+          id: string
+          provider_id: string
+          start_time: string
+        }
+        Insert: {
+          created_at?: string
+          day_of_week: number
+          end_time: string
+          id?: string
+          provider_id: string
+          start_time: string
+        }
+        Update: {
+          created_at?: string
+          day_of_week?: number
+          end_time?: string
+          id?: string
+          provider_id?: string
+          start_time?: string
+        }
+        Relationships: []
+      }
+      provider_profiles: {
+        Row: {
+          bio: string | null
+          created_at: string
+          currency: string
+          display_name: string | null
+          headline: string | null
+          hourly_rate: number | null
+          id: string
+          is_published: boolean
+          location: string | null
+          specialties: string[]
+          updated_at: string
+          years_experience: number | null
+        }
+        Insert: {
+          bio?: string | null
+          created_at?: string
+          currency?: string
+          display_name?: string | null
+          headline?: string | null
+          hourly_rate?: number | null
+          id: string
+          is_published?: boolean
+          location?: string | null
+          specialties?: string[]
+          updated_at?: string
+          years_experience?: number | null
+        }
+        Update: {
+          bio?: string | null
+          created_at?: string
+          currency?: string
+          display_name?: string | null
+          headline?: string | null
+          hourly_rate?: number | null
+          id?: string
+          is_published?: boolean
+          location?: string | null
+          specialties?: string[]
+          updated_at?: string
+          years_experience?: number | null
+        }
+        Relationships: []
+      }
+      provider_services: {
+        Row: {
+          created_at: string
+          description: string | null
+          duration_minutes: number | null
+          id: string
+          price: number | null
+          provider_id: string
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          duration_minutes?: number | null
+          id?: string
+          price?: number | null
+          provider_id: string
+          title: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          duration_minutes?: number | null
+          id?: string
+          price?: number | null
+          provider_id?: string
+          title?: string
         }
         Relationships: []
       }
@@ -205,8 +349,10 @@ export type Database = {
       }
     }
     Enums: {
+      account_type: "student" | "provider"
       app_role: "admin" | "moderator" | "user"
       consultation_status: "new" | "scheduled" | "completed" | "cancelled"
+      inquiry_status: "new" | "read" | "replied" | "closed"
       progress_status: "not_started" | "in_progress" | "completed"
       university_priority: "reach" | "target" | "safety"
     }
@@ -336,8 +482,10 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      account_type: ["student", "provider"],
       app_role: ["admin", "moderator", "user"],
       consultation_status: ["new", "scheduled", "completed", "cancelled"],
+      inquiry_status: ["new", "read", "replied", "closed"],
       progress_status: ["not_started", "in_progress", "completed"],
       university_priority: ["reach", "target", "safety"],
     },

@@ -20,17 +20,26 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as ProviderRouteImport } from './routes/_provider'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as ResourcesIndexRouteImport } from './routes/resources.index'
+import { Route as ProvidersIndexRouteImport } from './routes/providers.index'
 import { Route as ServicesTransferAdmissionsRouteImport } from './routes/services.transfer-admissions'
 import { Route as ServicesGraduateAdmissionsRouteImport } from './routes/services.graduate-admissions'
 import { Route as ServicesBsMdProgramsRouteImport } from './routes/services.bs-md-programs'
 import { Route as ServicesAthleticRecruitmentRouteImport } from './routes/services.athletic-recruitment'
 import { Route as ResourcesSlugRouteImport } from './routes/resources.$slug'
+import { Route as ProvidersProviderIdRouteImport } from './routes/providers.$providerId'
+import { Route as ProviderProviderRouteImport } from './routes/_provider/provider'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as ProviderProviderIndexRouteImport } from './routes/_provider/provider.index'
 import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authenticated/dashboard.index'
+import { Route as ProviderProviderServicesRouteImport } from './routes/_provider/provider.services'
+import { Route as ProviderProviderProfileRouteImport } from './routes/_provider/provider.profile'
+import { Route as ProviderProviderInquiriesRouteImport } from './routes/_provider/provider.inquiries'
+import { Route as ProviderProviderAvailabilityRouteImport } from './routes/_provider/provider.availability'
 import { Route as AuthenticatedDashboardUniversitiesRouteImport } from './routes/_authenticated/dashboard.universities'
 import { Route as AuthenticatedDashboardSessionsRouteImport } from './routes/_authenticated/dashboard.sessions'
 import { Route as AuthenticatedDashboardQuizzesRouteImport } from './routes/_authenticated/dashboard.quizzes'
@@ -92,6 +101,10 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProviderRoute = ProviderRouteImport.update({
+  id: '/_provider',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedRoute = AuthenticatedRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
@@ -110,6 +123,11 @@ const ResourcesIndexRoute = ResourcesIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => ResourcesRoute,
+} as any)
+const ProvidersIndexRoute = ProvidersIndexRouteImport.update({
+  id: '/providers/',
+  path: '/providers/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ServicesTransferAdmissionsRoute =
   ServicesTransferAdmissionsRouteImport.update({
@@ -139,16 +157,54 @@ const ResourcesSlugRoute = ResourcesSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => ResourcesRoute,
 } as any)
+const ProvidersProviderIdRoute = ProvidersProviderIdRouteImport.update({
+  id: '/providers/$providerId',
+  path: '/providers/$providerId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProviderProviderRoute = ProviderProviderRouteImport.update({
+  id: '/provider',
+  path: '/provider',
+  getParentRoute: () => ProviderRoute,
+} as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRoute,
+} as any)
+const ProviderProviderIndexRoute = ProviderProviderIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ProviderProviderRoute,
 } as any)
 const AuthenticatedDashboardIndexRoute =
   AuthenticatedDashboardIndexRouteImport.update({
     id: '/',
     path: '/',
     getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const ProviderProviderServicesRoute =
+  ProviderProviderServicesRouteImport.update({
+    id: '/services',
+    path: '/services',
+    getParentRoute: () => ProviderProviderRoute,
+  } as any)
+const ProviderProviderProfileRoute = ProviderProviderProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => ProviderProviderRoute,
+} as any)
+const ProviderProviderInquiriesRoute =
+  ProviderProviderInquiriesRouteImport.update({
+    id: '/inquiries',
+    path: '/inquiries',
+    getParentRoute: () => ProviderProviderRoute,
+  } as any)
+const ProviderProviderAvailabilityRoute =
+  ProviderProviderAvailabilityRouteImport.update({
+    id: '/availability',
+    path: '/availability',
+    getParentRoute: () => ProviderProviderRoute,
   } as any)
 const AuthenticatedDashboardUniversitiesRoute =
   AuthenticatedDashboardUniversitiesRouteImport.update({
@@ -195,11 +251,14 @@ export interface FileRoutesByFullPath {
   '/success-stories': typeof SuccessStoriesRoute
   '/team': typeof TeamRoute
   '/dashboard': typeof AuthenticatedDashboardRouteWithChildren
+  '/provider': typeof ProviderProviderRouteWithChildren
+  '/providers/$providerId': typeof ProvidersProviderIdRoute
   '/resources/$slug': typeof ResourcesSlugRoute
   '/services/athletic-recruitment': typeof ServicesAthleticRecruitmentRoute
   '/services/bs-md-programs': typeof ServicesBsMdProgramsRoute
   '/services/graduate-admissions': typeof ServicesGraduateAdmissionsRoute
   '/services/transfer-admissions': typeof ServicesTransferAdmissionsRoute
+  '/providers/': typeof ProvidersIndexRoute
   '/resources/': typeof ResourcesIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/dashboard/profile': typeof AuthenticatedDashboardProfileRoute
@@ -207,7 +266,12 @@ export interface FileRoutesByFullPath {
   '/dashboard/quizzes': typeof AuthenticatedDashboardQuizzesRoute
   '/dashboard/sessions': typeof AuthenticatedDashboardSessionsRoute
   '/dashboard/universities': typeof AuthenticatedDashboardUniversitiesRoute
+  '/provider/availability': typeof ProviderProviderAvailabilityRoute
+  '/provider/inquiries': typeof ProviderProviderInquiriesRoute
+  '/provider/profile': typeof ProviderProviderProfileRoute
+  '/provider/services': typeof ProviderProviderServicesRoute
   '/dashboard/': typeof AuthenticatedDashboardIndexRoute
+  '/provider/': typeof ProviderProviderIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -220,11 +284,13 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/success-stories': typeof SuccessStoriesRoute
   '/team': typeof TeamRoute
+  '/providers/$providerId': typeof ProvidersProviderIdRoute
   '/resources/$slug': typeof ResourcesSlugRoute
   '/services/athletic-recruitment': typeof ServicesAthleticRecruitmentRoute
   '/services/bs-md-programs': typeof ServicesBsMdProgramsRoute
   '/services/graduate-admissions': typeof ServicesGraduateAdmissionsRoute
   '/services/transfer-admissions': typeof ServicesTransferAdmissionsRoute
+  '/providers': typeof ProvidersIndexRoute
   '/resources': typeof ResourcesIndexRoute
   '/services': typeof ServicesIndexRoute
   '/dashboard/profile': typeof AuthenticatedDashboardProfileRoute
@@ -232,12 +298,18 @@ export interface FileRoutesByTo {
   '/dashboard/quizzes': typeof AuthenticatedDashboardQuizzesRoute
   '/dashboard/sessions': typeof AuthenticatedDashboardSessionsRoute
   '/dashboard/universities': typeof AuthenticatedDashboardUniversitiesRoute
+  '/provider/availability': typeof ProviderProviderAvailabilityRoute
+  '/provider/inquiries': typeof ProviderProviderInquiriesRoute
+  '/provider/profile': typeof ProviderProviderProfileRoute
+  '/provider/services': typeof ProviderProviderServicesRoute
   '/dashboard': typeof AuthenticatedDashboardIndexRoute
+  '/provider': typeof ProviderProviderIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/_provider': typeof ProviderRouteWithChildren
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/forgot-password': typeof ForgotPasswordRoute
@@ -250,11 +322,14 @@ export interface FileRoutesById {
   '/success-stories': typeof SuccessStoriesRoute
   '/team': typeof TeamRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRouteWithChildren
+  '/_provider/provider': typeof ProviderProviderRouteWithChildren
+  '/providers/$providerId': typeof ProvidersProviderIdRoute
   '/resources/$slug': typeof ResourcesSlugRoute
   '/services/athletic-recruitment': typeof ServicesAthleticRecruitmentRoute
   '/services/bs-md-programs': typeof ServicesBsMdProgramsRoute
   '/services/graduate-admissions': typeof ServicesGraduateAdmissionsRoute
   '/services/transfer-admissions': typeof ServicesTransferAdmissionsRoute
+  '/providers/': typeof ProvidersIndexRoute
   '/resources/': typeof ResourcesIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/_authenticated/dashboard/profile': typeof AuthenticatedDashboardProfileRoute
@@ -262,7 +337,12 @@ export interface FileRoutesById {
   '/_authenticated/dashboard/quizzes': typeof AuthenticatedDashboardQuizzesRoute
   '/_authenticated/dashboard/sessions': typeof AuthenticatedDashboardSessionsRoute
   '/_authenticated/dashboard/universities': typeof AuthenticatedDashboardUniversitiesRoute
+  '/_provider/provider/availability': typeof ProviderProviderAvailabilityRoute
+  '/_provider/provider/inquiries': typeof ProviderProviderInquiriesRoute
+  '/_provider/provider/profile': typeof ProviderProviderProfileRoute
+  '/_provider/provider/services': typeof ProviderProviderServicesRoute
   '/_authenticated/dashboard/': typeof AuthenticatedDashboardIndexRoute
+  '/_provider/provider/': typeof ProviderProviderIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -280,11 +360,14 @@ export interface FileRouteTypes {
     | '/success-stories'
     | '/team'
     | '/dashboard'
+    | '/provider'
+    | '/providers/$providerId'
     | '/resources/$slug'
     | '/services/athletic-recruitment'
     | '/services/bs-md-programs'
     | '/services/graduate-admissions'
     | '/services/transfer-admissions'
+    | '/providers/'
     | '/resources/'
     | '/services/'
     | '/dashboard/profile'
@@ -292,7 +375,12 @@ export interface FileRouteTypes {
     | '/dashboard/quizzes'
     | '/dashboard/sessions'
     | '/dashboard/universities'
+    | '/provider/availability'
+    | '/provider/inquiries'
+    | '/provider/profile'
+    | '/provider/services'
     | '/dashboard/'
+    | '/provider/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -305,11 +393,13 @@ export interface FileRouteTypes {
     | '/signup'
     | '/success-stories'
     | '/team'
+    | '/providers/$providerId'
     | '/resources/$slug'
     | '/services/athletic-recruitment'
     | '/services/bs-md-programs'
     | '/services/graduate-admissions'
     | '/services/transfer-admissions'
+    | '/providers'
     | '/resources'
     | '/services'
     | '/dashboard/profile'
@@ -317,11 +407,17 @@ export interface FileRouteTypes {
     | '/dashboard/quizzes'
     | '/dashboard/sessions'
     | '/dashboard/universities'
+    | '/provider/availability'
+    | '/provider/inquiries'
+    | '/provider/profile'
+    | '/provider/services'
     | '/dashboard'
+    | '/provider'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
+    | '/_provider'
     | '/about'
     | '/contact'
     | '/forgot-password'
@@ -334,11 +430,14 @@ export interface FileRouteTypes {
     | '/success-stories'
     | '/team'
     | '/_authenticated/dashboard'
+    | '/_provider/provider'
+    | '/providers/$providerId'
     | '/resources/$slug'
     | '/services/athletic-recruitment'
     | '/services/bs-md-programs'
     | '/services/graduate-admissions'
     | '/services/transfer-admissions'
+    | '/providers/'
     | '/resources/'
     | '/services/'
     | '/_authenticated/dashboard/profile'
@@ -346,12 +445,18 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard/quizzes'
     | '/_authenticated/dashboard/sessions'
     | '/_authenticated/dashboard/universities'
+    | '/_provider/provider/availability'
+    | '/_provider/provider/inquiries'
+    | '/_provider/provider/profile'
+    | '/_provider/provider/services'
     | '/_authenticated/dashboard/'
+    | '/_provider/provider/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
+  ProviderRoute: typeof ProviderRouteWithChildren
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
@@ -363,6 +468,8 @@ export interface RootRouteChildren {
   SignupRoute: typeof SignupRoute
   SuccessStoriesRoute: typeof SuccessStoriesRoute
   TeamRoute: typeof TeamRoute
+  ProvidersProviderIdRoute: typeof ProvidersProviderIdRoute
+  ProvidersIndexRoute: typeof ProvidersIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -444,6 +551,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_provider': {
+      id: '/_provider'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof ProviderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated': {
       id: '/_authenticated'
       path: ''
@@ -471,6 +585,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/resources/'
       preLoaderRoute: typeof ResourcesIndexRouteImport
       parentRoute: typeof ResourcesRoute
+    }
+    '/providers/': {
+      id: '/providers/'
+      path: '/providers'
+      fullPath: '/providers/'
+      preLoaderRoute: typeof ProvidersIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/services/transfer-admissions': {
       id: '/services/transfer-admissions'
@@ -507,6 +628,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResourcesSlugRouteImport
       parentRoute: typeof ResourcesRoute
     }
+    '/providers/$providerId': {
+      id: '/providers/$providerId'
+      path: '/providers/$providerId'
+      fullPath: '/providers/$providerId'
+      preLoaderRoute: typeof ProvidersProviderIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_provider/provider': {
+      id: '/_provider/provider'
+      path: '/provider'
+      fullPath: '/provider'
+      preLoaderRoute: typeof ProviderProviderRouteImport
+      parentRoute: typeof ProviderRoute
+    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
@@ -514,12 +649,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_provider/provider/': {
+      id: '/_provider/provider/'
+      path: '/'
+      fullPath: '/provider/'
+      preLoaderRoute: typeof ProviderProviderIndexRouteImport
+      parentRoute: typeof ProviderProviderRoute
+    }
     '/_authenticated/dashboard/': {
       id: '/_authenticated/dashboard/'
       path: '/'
       fullPath: '/dashboard/'
       preLoaderRoute: typeof AuthenticatedDashboardIndexRouteImport
       parentRoute: typeof AuthenticatedDashboardRoute
+    }
+    '/_provider/provider/services': {
+      id: '/_provider/provider/services'
+      path: '/services'
+      fullPath: '/provider/services'
+      preLoaderRoute: typeof ProviderProviderServicesRouteImport
+      parentRoute: typeof ProviderProviderRoute
+    }
+    '/_provider/provider/profile': {
+      id: '/_provider/provider/profile'
+      path: '/profile'
+      fullPath: '/provider/profile'
+      preLoaderRoute: typeof ProviderProviderProfileRouteImport
+      parentRoute: typeof ProviderProviderRoute
+    }
+    '/_provider/provider/inquiries': {
+      id: '/_provider/provider/inquiries'
+      path: '/inquiries'
+      fullPath: '/provider/inquiries'
+      preLoaderRoute: typeof ProviderProviderInquiriesRouteImport
+      parentRoute: typeof ProviderProviderRoute
+    }
+    '/_provider/provider/availability': {
+      id: '/_provider/provider/availability'
+      path: '/availability'
+      fullPath: '/provider/availability'
+      preLoaderRoute: typeof ProviderProviderAvailabilityRouteImport
+      parentRoute: typeof ProviderProviderRoute
     }
     '/_authenticated/dashboard/universities': {
       id: '/_authenticated/dashboard/universities'
@@ -596,6 +766,37 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
   AuthenticatedRouteChildren,
 )
 
+interface ProviderProviderRouteChildren {
+  ProviderProviderAvailabilityRoute: typeof ProviderProviderAvailabilityRoute
+  ProviderProviderInquiriesRoute: typeof ProviderProviderInquiriesRoute
+  ProviderProviderProfileRoute: typeof ProviderProviderProfileRoute
+  ProviderProviderServicesRoute: typeof ProviderProviderServicesRoute
+  ProviderProviderIndexRoute: typeof ProviderProviderIndexRoute
+}
+
+const ProviderProviderRouteChildren: ProviderProviderRouteChildren = {
+  ProviderProviderAvailabilityRoute: ProviderProviderAvailabilityRoute,
+  ProviderProviderInquiriesRoute: ProviderProviderInquiriesRoute,
+  ProviderProviderProfileRoute: ProviderProviderProfileRoute,
+  ProviderProviderServicesRoute: ProviderProviderServicesRoute,
+  ProviderProviderIndexRoute: ProviderProviderIndexRoute,
+}
+
+const ProviderProviderRouteWithChildren =
+  ProviderProviderRoute._addFileChildren(ProviderProviderRouteChildren)
+
+interface ProviderRouteChildren {
+  ProviderProviderRoute: typeof ProviderProviderRouteWithChildren
+}
+
+const ProviderRouteChildren: ProviderRouteChildren = {
+  ProviderProviderRoute: ProviderProviderRouteWithChildren,
+}
+
+const ProviderRouteWithChildren = ProviderRoute._addFileChildren(
+  ProviderRouteChildren,
+)
+
 interface ResourcesRouteChildren {
   ResourcesSlugRoute: typeof ResourcesSlugRoute
   ResourcesIndexRoute: typeof ResourcesIndexRoute
@@ -633,6 +834,7 @@ const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
+  ProviderRoute: ProviderRouteWithChildren,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
@@ -644,6 +846,8 @@ const rootRouteChildren: RootRouteChildren = {
   SignupRoute: SignupRoute,
   SuccessStoriesRoute: SuccessStoriesRoute,
   TeamRoute: TeamRoute,
+  ProvidersProviderIdRoute: ProvidersProviderIdRoute,
+  ProvidersIndexRoute: ProvidersIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

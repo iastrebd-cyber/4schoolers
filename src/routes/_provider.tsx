@@ -1,6 +1,6 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/_authenticated")({
+export const Route = createFileRoute("/_provider")({
   beforeLoad: ({ context, location }) => {
     const { auth } = context;
     // Wait until auth + role are resolved before deciding.
@@ -11,9 +11,9 @@ export const Route = createFileRoute("/_authenticated")({
         search: { redirect: location.href },
       });
     }
-    // Providers don't belong in the student area — send them to their portal.
-    if (auth.accountType === "provider") {
-      throw redirect({ to: "/provider" });
+    // Only providers may enter the provider portal.
+    if (auth.accountType !== "provider") {
+      throw redirect({ to: "/dashboard" });
     }
   },
   component: () => <Outlet />,
